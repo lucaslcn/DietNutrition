@@ -5,56 +5,39 @@
  */
 package daos;
 
-import apoio.ConexaoBD;
-import apoio.IDAO_T;
-import entidades.Familia;
+import support.ConexaoBD;
+import support.IDAO_T;
+import entidades.Usuario;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import support.ConexaoBD;
+import support.IDAO_T;
 
 /**
  *
  * @author fabricio.pretto
  */
-public class FamiliaDAO implements IDAO_T<Familia> {
+public class usuarioDAO implements IDAO_T<Usuario> {
 
     ResultSet resultadoQ = null;
 
-//    public boolean salvarVersao1(Familia f) {
-//        try {
-//            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-//
-//            String sql = "INSERT INTO familia VALUES ("
-//                    + "DEFAULT, "
-//                    + "'" + f.getDescricao() + "', "
-//                    + "'" + f.getSituacao() + "'"
-//                    + ")";
-//
-//            System.out.println("sql: " + sql);
-//
-//            int resultado = st.executeUpdate(sql);
-//            
-//            return true;
-//
-//        } catch (Exception e) {
-//            System.out.println("Erro salvar xxx = " + e);
-//            return false;
-//        }
-//    }
     @Override
-    public String salvar(Familia o) {
+    public String salvar(Usuario u) {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "INSERT INTO familia VALUES ("
+            String sql = "INSERT INTO usuario VALUES ("
                     + "DEFAULT, "
-                    + "'" + o.getDescricao() + "', "
-                    + "'" + o.getSituacao() + "'"
-                    + ")";
+                    + "'" + u.getNome()+ "', "
+                    + "'" + u.getEmail()+ "',"
+                    + "'" + u.getAltura_cm()+"',"
+                    + "'" + u.getSexo()+"',"
+                    + "'" + u.getData_nascimento()+"')";
+                    
 
             System.out.println("sql: " + sql);
 
@@ -63,19 +46,22 @@ public class FamiliaDAO implements IDAO_T<Familia> {
             return null;
 
         } catch (Exception e) {
-            System.out.println("Erro salvar família = " + e);
+            System.out.println("Erro salvar usuário = " + e);
             return e.toString();
         }
     }
 
     @Override
-    public String atualizar(Familia o) {
+    public String atualizar(Usuario u) {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "UPDATE familia "
-                    + "SET descricao = '" + o.getDescricao() + "' "
-                    + "WHERE id = " + o.getId();
+            String sql = "UPDATE usuario "
+                    + "SET nome = '" + u.getNome() + "', "
+                    + "SET email = '" + u.getEmail() + "',"
+                    + "SET altura = '" + u.getAltura_cm() + "',"
+                    + "SET sexo = '" + u.getSexo() + "'"
+                    + "WHERE id = " + u.getId();
 
             System.out.println("sql: " + sql);
 
@@ -95,21 +81,21 @@ public class FamiliaDAO implements IDAO_T<Familia> {
     }
 
     @Override
-    public ArrayList<Familia> consultarTodos() {
+    public ArrayList<Usuario> consultarTodos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ArrayList<Familia> consultar(String criterio) {
+    public ArrayList<Usuario> consultar(String criterio) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Familia consultarId(int id) {
+    public Usuario consultarId(int id) {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "SELECT * FROM familia "
+            String sql = "SELECT * FROM usuario "
                     + "WHERE id = " + id;
 
             System.out.println("sql: " + sql);
@@ -117,13 +103,13 @@ public class FamiliaDAO implements IDAO_T<Familia> {
             resultadoQ = st.executeQuery(sql);
 
             if (resultadoQ.next()) {
-                Familia familia = new Familia();
+                Usuario usuario = new Usuario();
 
-                familia.setId(id);
-                familia.setDescricao(resultadoQ.getString("descricao"));
-                familia.setSituacao(resultadoQ.getString("situacao").charAt(0));
+                usuario.setId(id);
+                usuario.setNome(resultadoQ.getString("nome"));
+                usuario.setEmail(resultadoQ.getString("email"));
 
-                return familia;
+                return usuario;
             }
 
         } catch (Exception e) {
@@ -137,19 +123,22 @@ public class FamiliaDAO implements IDAO_T<Familia> {
         Object[][] dadosTabela = null;
 
         // cabecalho da tabela
-        Object[] cabecalho = new Object[3];
+        Object[] cabecalho = new Object[6];
         cabecalho[0] = "Código";
-        cabecalho[1] = "Descrição";
-        cabecalho[2] = "Situação";
+        cabecalho[1] = "Nome";
+        cabecalho[2] = "Email";
+        cabecalho[3] = "Altura";
+        cabecalho[4] = "Sexo";
+        cabecalho[5] = "Data nasc.";
 
         // cria matriz de acordo com nº de registros da tabela
         try {
             resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT count(*) FROM familia WHERE DESCRICAO ILIKE '%" + criterio + "%'");
+                    + "SELECT count(*) FROM usuario WHERE NOME ILIKE '%" + criterio + "%'");
 
             resultadoQ.next();
 
-            dadosTabela = new Object[resultadoQ.getInt(1)][3];
+            dadosTabela = new Object[resultadoQ.getInt(1)][6];
 
         } catch (Exception e) {
             System.out.println("Erro ao consultar XXX: " + e);
@@ -160,13 +149,18 @@ public class FamiliaDAO implements IDAO_T<Familia> {
         // efetua consulta na tabela
         try {
             resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT * FROM familia WHERE DESCRICAO ILIKE '%" + criterio + "%'");
+                    + "SELECT * FROM usuario WHERE NOME ILIKE '%" + criterio + "%'");
 
             while (resultadoQ.next()) {
 
                 dadosTabela[lin][0] = resultadoQ.getInt("id");
-                dadosTabela[lin][1] = resultadoQ.getString("descricao");
-                dadosTabela[lin][2] = resultadoQ.getString("situacao");
+                dadosTabela[lin][1] = resultadoQ.getString("nome");
+                dadosTabela[lin][2] = resultadoQ.getString("email");
+                dadosTabela[lin][3] = resultadoQ.getString("altura_cm");
+                dadosTabela[lin][4] = resultadoQ.getString("sexo");
+                dadosTabela[lin][5] = resultadoQ.getString("data_nascimento");
+
+
 
                 // caso a coluna precise exibir uma imagem
 //                if (resultadoQ.getBoolean("Situacao")) {
