@@ -432,7 +432,7 @@ ALTER TABLE ONLY public.usuario ALTER COLUMN id SET DEFAULT nextval('public.usua
 --
 
 COPY public.alimento (id, nome_alimento, proteinas_por_porcao, carboidratos_por_porcao, gorduras_por_porcao, kcal_por_porcao) FROM stdin;
-\.
+
 
 
 --
@@ -442,7 +442,7 @@ COPY public.alimento (id, nome_alimento, proteinas_por_porcao, carboidratos_por_
 --
 
 COPY public.antropometria (id, peso_kg, data, imc, usuario_id) FROM stdin;
-\.
+
 
 
 --
@@ -452,7 +452,7 @@ COPY public.antropometria (id, peso_kg, data, imc, usuario_id) FROM stdin;
 --
 
 COPY public.atividade_dieta (id, registro_atividadefisica_id, dieta_id) FROM stdin;
-\.
+
 
 
 --
@@ -462,7 +462,7 @@ COPY public.atividade_dieta (id, registro_atividadefisica_id, dieta_id) FROM std
 --
 
 COPY public.atividadefisica (idatividadefisica, nome_atividade, kcal_por_hora) FROM stdin;
-\.
+
 
 
 --
@@ -472,7 +472,7 @@ COPY public.atividadefisica (idatividadefisica, nome_atividade, kcal_por_hora) F
 --
 
 COPY public.consumo_alimento (dieta_id, alimento_id, numero_porcoes) FROM stdin;
-\.
+
 
 
 --
@@ -482,7 +482,7 @@ COPY public.consumo_alimento (dieta_id, alimento_id, numero_porcoes) FROM stdin;
 --
 
 COPY public.registro_atividadefisica (id, atividadefisica_idatividadefisica, duracao, km, data) FROM stdin;
-\.
+
 
 
 --
@@ -492,7 +492,7 @@ COPY public.registro_atividadefisica (id, atividadefisica_idatividadefisica, dur
 --
 
 COPY public.resumo_dia (id, saldokcal, usuario_id, data) FROM stdin;
-\.
+
 
 
 --
@@ -502,7 +502,7 @@ COPY public.resumo_dia (id, saldokcal, usuario_id, data) FROM stdin;
 --
 
 COPY public.usuario (id, nome, email, altura_cm, sexo, data_nascimento) FROM stdin;
-\.
+
 
 
 --

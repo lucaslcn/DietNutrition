@@ -60,7 +60,7 @@ public class usuarioDAO implements IDAO_T<Usuario> {
                     + "SET nome = '" + u.getNome() + "', "
                     + "SET email = '" + u.getEmail() + "',"
                     + "SET altura = '" + u.getAltura_cm() + "',"
-                    + "SET sexo = '" + u.getSexo() + "'"
+                    + "SET sexo = '" + u.getSexo() + "' "
                     + "WHERE id = " + u.getId();
 
             System.out.println("sql: " + sql);
@@ -70,7 +70,7 @@ public class usuarioDAO implements IDAO_T<Usuario> {
             return null;
 
         } catch (Exception e) {
-            System.out.println("Erro atualizar família = " + e);
+            System.out.println("Erro atualizar usuario = " + e);
             return e.toString();
         }
     }
@@ -108,12 +108,15 @@ public class usuarioDAO implements IDAO_T<Usuario> {
                 usuario.setId(id);
                 usuario.setNome(resultadoQ.getString("nome"));
                 usuario.setEmail(resultadoQ.getString("email"));
+                usuario.setAltura_cm(resultadoQ.getInt("altura_cm"));
+                usuario.setSexo(resultadoQ.getString("sexo").charAt(0));
+                usuario.setData_nascimento(resultadoQ.getString("data_nascimento"));
 
                 return usuario;
             }
 
         } catch (Exception e) {
-            System.out.println("Erro atualizar família = " + e);
+            System.out.println("Erro atualizar usuário = " + e);
         }
         return null;
     }

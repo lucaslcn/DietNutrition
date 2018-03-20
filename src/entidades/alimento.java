@@ -11,19 +11,19 @@ package entidades;
  */
 public class alimento {
     
-    private int ind;
+    private int id;
     private String nome_alimento;
     private float proteinas_por_porcao;
     private float carboidratos_por_porcao;
     private float gorduras_por_porcao;
     private float kcal_por_porcao;
 
-    public int getInd() {
-        return ind;
+    public int getId() {
+        return id;
     }
 
-    public void setInd(int ind) {
-        this.ind = ind;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome_alimento() {
