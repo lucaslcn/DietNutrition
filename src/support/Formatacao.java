@@ -64,14 +64,14 @@ public class Formatacao {
     public void formatoDecimal(JTextField campo) {
         campo.setText(df.format(Double.parseDouble(campo.getText())));
     }
-
-    public static void formatarAltura(JFormattedTextField campo)
+    
+    public static void formatarNumbersOnly(JFormattedTextField campo)
     {
         try
         {
             MaskFormatter m = new MaskFormatter();
             m.setPlaceholderCharacter(' ');
-            m.setMask("###");
+            m.setMask("##");
             campo.setFormatterFactory(null);
             campo.setFormatterFactory(new DefaultFormatterFactory(m));
             campo.setValue(null);

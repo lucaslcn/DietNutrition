@@ -9,6 +9,7 @@ import daos.alimentoDAO;
 import daos.usuarioDAO;
 import entidades.alimento;
 import javax.swing.JOptionPane;
+import support.Formatacao;
 
 /**
  *
@@ -23,6 +24,10 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
     public IfrAlimento() {
         initComponents();
         this.setTitle("Alimentos");
+        Formatacao.formatarNumbersOnly(tfdCarboidrato);
+        Formatacao.formatarNumbersOnly(tfdProteinas);
+        Formatacao.formatarNumbersOnly(tfdGorduras);
+        Formatacao.formatarNumbersOnly(tfdCalorias);
     }
 
     /**
@@ -45,14 +50,14 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         tfdNome = new javax.swing.JTextField();
-        tfdCarboidrato = new javax.swing.JTextField();
-        tfdProteinas = new javax.swing.JTextField();
-        tfdGorduras = new javax.swing.JTextField();
-        tfdCalorias = new javax.swing.JTextField();
+        tfdCarboidrato = new javax.swing.JFormattedTextField();
+        tfdProteinas = new javax.swing.JFormattedTextField();
+        tfdGorduras = new javax.swing.JFormattedTextField();
+        tfdCalorias = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         tfdCriterio = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        Pesquisar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAlimento = new javax.swing.JTable();
 
@@ -128,14 +133,19 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(tfdCalorias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addContainerGap(176, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cadastro", jPanel1);
 
         jLabel6.setText("Nome");
 
-        jButton4.setText("Pesquisar");
+        Pesquisar.setText("Pesquisar");
+        Pesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PesquisarActionPerformed(evt);
+            }
+        });
 
         tblAlimento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -163,7 +173,7 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)))
+                        .addComponent(Pesquisar)))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -173,7 +183,7 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
+                    .addComponent(Pesquisar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
                 .addContainerGap())
@@ -251,12 +261,16 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_SalvarActionPerformed
 
+    private void PesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PesquisarActionPerformed
+        new alimentoDAO().popularTabela(tblAlimento, tfdCriterio.getText());
+    }//GEN-LAST:event_PesquisarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Editar;
     private javax.swing.JButton Fechar;
+    private javax.swing.JButton Pesquisar;
     private javax.swing.JButton Salvar;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -268,11 +282,11 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable tblAlimento;
-    private javax.swing.JTextField tfdCalorias;
-    private javax.swing.JTextField tfdCarboidrato;
+    private javax.swing.JFormattedTextField tfdCalorias;
+    private javax.swing.JFormattedTextField tfdCarboidrato;
     private javax.swing.JTextField tfdCriterio;
-    private javax.swing.JTextField tfdGorduras;
+    private javax.swing.JFormattedTextField tfdGorduras;
     private javax.swing.JTextField tfdNome;
-    private javax.swing.JTextField tfdProteinas;
+    private javax.swing.JFormattedTextField tfdProteinas;
     // End of variables declaration//GEN-END:variables
 }

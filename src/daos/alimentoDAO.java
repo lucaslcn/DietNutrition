@@ -135,7 +135,7 @@ public class alimentoDAO implements IDAO_T<alimento> {
         // cria matriz de acordo com nº de registros da tabela
         try {
             resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT count(*) FROM alimento WHERE NOME ILIKE '%" + criterio + "%'");
+                    + "SELECT count(*) FROM alimento WHERE NOME_ALIMENTO ILIKE '%" + criterio + "%'");
 
             resultadoQ.next();
 
@@ -150,7 +150,7 @@ public class alimentoDAO implements IDAO_T<alimento> {
         // efetua consulta na tabela
         try {
             resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT * FROM usuario WHERE NOME ILIKE '%" + criterio + "%'");
+                    + "SELECT * FROM alimento WHERE NOME_ALIMENTO ILIKE '%" + criterio + "%'");
 
             while (resultadoQ.next()) {
 

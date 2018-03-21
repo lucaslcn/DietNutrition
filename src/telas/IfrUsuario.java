@@ -25,7 +25,7 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
     public IfrUsuario() {
         initComponents();
         
-        Formatacao.formatarAltura(tfdAltura);
+        Formatacao.formatarNumbersOnly(tfdAltura);
         Formatacao.formatarData(tfdDataNascimento);
         this.setTitle("Usuários");
         new usuarioDAO().popularTabela(tblUsuario, tfdCriterio.getText());
