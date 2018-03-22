@@ -9,7 +9,11 @@ package support;
  *
  * @author Lucas
  */
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -29,6 +33,35 @@ public class Validacao {
         soma = 11 - soma % 11;
         return soma > 9 ? 0 : soma;
     }
+
+    public static void validarNumbersOnly(JTextField campo, JLabel validation) {
+        campo.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e1) {
+                try {
+                    double i = (Double.parseDouble(campo.getText()));
+                    validation.setText("");
+                } catch (NumberFormatException e) {
+                    validation.setText("Invalid number");
+
+                }
+            }
+        });
+    }
+
+    public static void validarNumbersOnly(JTextField campo) {
+        campo.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e1) {
+                try {
+                    double i = (Double.parseDouble(campo.getText()));
+                    
+                } catch (NumberFormatException e) {
+                    System.err.print("Invalid number");
+
+                }
+            }
+        });
+    }
+
 
     public static boolean validarCPF(String cpf) {
         if ((cpf == null) || (cpf.length() != 11)) {

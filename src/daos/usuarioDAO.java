@@ -58,9 +58,9 @@ public class usuarioDAO implements IDAO_T<Usuario> {
 
             String sql = "UPDATE usuario "
                     + "SET nome = '" + u.getNome() + "', "
-                    + "SET email = '" + u.getEmail() + "',"
-                    + "SET altura = '" + u.getAltura_cm() + "',"
-                    + "SET sexo = '" + u.getSexo() + "' "
+                    + "email = '" + u.getEmail() + "',"
+                    + "altura_cm = '" + u.getAltura_cm() + "',"
+                    + "sexo = '" + u.getSexo() + "' "
                     + "WHERE id = " + u.getId();
 
             System.out.println("sql: " + sql);

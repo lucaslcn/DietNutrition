@@ -13,10 +13,10 @@ public class alimento {
     
     private int id;
     private String nome_alimento;
-    private float proteinas_por_porcao;
-    private float carboidratos_por_porcao;
-    private float gorduras_por_porcao;
-    private float kcal_por_porcao;
+    private double proteinas_por_porcao;
+    private double carboidratos_por_porcao;
+    private double gorduras_por_porcao;
+    private double kcal_por_porcao;
 
     public int getId() {
         return id;
@@ -34,38 +34,38 @@ public class alimento {
         this.nome_alimento = nome_alimento;
     }
 
-    public float getProteinas_por_porcao() {
+    public double getProteinas_por_porcao() {
         return proteinas_por_porcao;
     }
 
-    public void setProteinas_por_porcao(float proteinas_por_porcao) {
+    public void setProteinas_por_porcao(double proteinas_por_porcao) {
         this.proteinas_por_porcao = proteinas_por_porcao;
     }
 
-    public float getCarboidratos_por_porcao() {
+    public double getCarboidratos_por_porcao() {
         return carboidratos_por_porcao;
     }
 
-    public void setCarboidratos_por_porcao(float carboidratos_por_porcao) {
+    public void setCarboidratos_por_porcao(double carboidratos_por_porcao) {
         this.carboidratos_por_porcao = carboidratos_por_porcao;
     }
 
-    public float getGorduras_por_porcao() {
+    public double getGorduras_por_porcao() {
         return gorduras_por_porcao;
     }
 
-    public void setGorduras_por_porcao(float gorduras_por_porcao) {
+    public void setGorduras_por_porcao(double gorduras_por_porcao) {
         this.gorduras_por_porcao = gorduras_por_porcao;
     }
 
-    public float getKcal_por_porcao() {
+    public double getKcal_por_porcao() {
         return kcal_por_porcao;
     }
 
-    public void setKcal_por_porcao(float kcal_por_porcao) {
+    public void setKcal_por_porcao(double kcal_por_porcao) {
         this.kcal_por_porcao = kcal_por_porcao;
     }
-    
-    
+
+   
     
 }

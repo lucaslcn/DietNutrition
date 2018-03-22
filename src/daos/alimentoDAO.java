@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import support.ConexaoBD;
 import support.IDAO_T;
 /**
@@ -53,12 +55,13 @@ public class alimentoDAO implements IDAO_T<alimento> {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "UPDATE usuario ("
+            String sql = "UPDATE alimento ("
                     + "SET nome_alimento = '" + o.getNome_alimento() + "', "
-                    + "SET carboidratos_por_porcao = '" + o.getCarboidratos_por_porcao() + "',"
-                    + "SET proteinas_por_porcao = '" + o.getProteinas_por_porcao() + "',"
-                    + "SET gorduras_por_porcao = '" + o.getGorduras_por_porcao() + "',"
-                    + "SET kcal_por_porcao = '" + o.getKcal_por_porcao() + "')";
+                    + "carboidratos_por_porcao = '" + o.getCarboidratos_por_porcao() + "',"
+                    + "proteinas_por_porcao = '" + o.getProteinas_por_porcao() + "',"
+                    + "gorduras_por_porcao = '" + o.getGorduras_por_porcao() + "',"
+                    + "kcal_por_porcao = '" + o.getKcal_por_porcao() + "'"
+                    + "WHERE id = " + o.getId() + "')";
                     
 
             System.out.println("sql: " + sql);
@@ -105,10 +108,10 @@ public class alimentoDAO implements IDAO_T<alimento> {
 
                 alimento.setId(id);
                 alimento.setNome_alimento(resultadoQ.getString("nome_alimento"));
-                alimento.setCarboidratos_por_porcao(resultadoQ.getFloat("carboidratos_por_porcao"));
-                alimento.setProteinas_por_porcao(resultadoQ.getFloat("proteinas_por_porcao"));
-                alimento.setGorduras_por_porcao(resultadoQ.getFloat("gorduras_por_porcao"));
-                alimento.setKcal_por_porcao(resultadoQ.getFloat("kcal_por_porcao"));
+                alimento.setCarboidratos_por_porcao(resultadoQ.getDouble("carboidratos_por_porcao"));
+                alimento.setProteinas_por_porcao(resultadoQ.getDouble("proteinas_por_porcao"));
+                alimento.setGorduras_por_porcao(resultadoQ.getDouble("gorduras_por_porcao"));
+                alimento.setKcal_por_porcao(resultadoQ.getDouble("kcal_por_porcao"));
                 
                 return alimento;
             }
@@ -156,10 +159,10 @@ public class alimentoDAO implements IDAO_T<alimento> {
 
                 dadosTabela[lin][0] = resultadoQ.getInt("id");
                 dadosTabela[lin][1] = resultadoQ.getString("nome_alimento");
-                dadosTabela[lin][2] = resultadoQ.getFloat("carboidratos_por_porcao");
-                dadosTabela[lin][3] = resultadoQ.getFloat("proteinas_por_porcao");
-                dadosTabela[lin][4] = resultadoQ.getFloat("gorduras_por_porcao");
-                dadosTabela[lin][5] = resultadoQ.getFloat("kcal_por_porcao");
+                dadosTabela[lin][2] = resultadoQ.getDouble("carboidratos_por_porcao");
+                dadosTabela[lin][3] = resultadoQ.getDouble("proteinas_por_porcao");
+                dadosTabela[lin][4] = resultadoQ.getDouble("gorduras_por_porcao");
+                dadosTabela[lin][5] = resultadoQ.getDouble("kcal_por_porcao");
 
 
 
@@ -176,5 +179,49 @@ public class alimentoDAO implements IDAO_T<alimento> {
             System.out.println(e);
         }
     
+                tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
+            @Override
+            // quando retorno for FALSE, a tabela nao é editavel
+            public boolean isCellEditable(int row, int column) {
+                return false;
+                /*  
+                 if (column == 3) {  // apenas a coluna 3 sera editavel
+                 return true;
+                 } else {
+                 return false;
+                 }
+                 */
+            }
+
+            // alteracao no metodo que determina a coluna em que o objeto ImageIcon devera aparecer
+            @Override
+            public Class getColumnClass(int column) {
+
+                if (column == 2) {
+//                    return ImageIcon.class;
+                }
+                return Object.class;
+            }
+        });
+
+        // permite seleção de apenas uma linha da tabela
+        tabela.setSelectionMode(0);
+
+        // redimensiona as colunas de uma tabela
+        TableColumn column = null;
+        for (int i = 0; i < tabela.getColumnCount(); i++) {
+            column = tabela.getColumnModel().getColumn(i);
+            switch (i) {
+                case 0:
+                    column.setPreferredWidth(17);
+                    break;
+                case 1:
+                    column.setPreferredWidth(140);
+                    break;
+//                case 2:
+//                    column.setPreferredWidth(14);
+//                    break;
+            }
+        }
 }
 }

@@ -67,6 +67,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Fechar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FecharActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
 
@@ -105,7 +108,14 @@
                           <Component id="tfdGorduras" max="32767" attributes="0"/>
                           <Component id="tfdCalorias" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="223" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="validarCarb" pref="94" max="32767" attributes="0"/>
+                          <Component id="validarProt" max="32767" attributes="0"/>
+                          <Component id="validarGord" max="32767" attributes="0"/>
+                          <Component id="validarCalorias" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="111" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -121,23 +131,27 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfdCarboidrato" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="validarCarb" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfdProteinas" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="validarProt" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfdGorduras" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="validarGord" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfdCalorias" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="validarCalorias" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="176" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="180" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -177,6 +191,14 @@
             <Component class="javax.swing.JFormattedTextField" name="tfdGorduras">
             </Component>
             <Component class="javax.swing.JFormattedTextField" name="tfdCalorias">
+            </Component>
+            <Component class="javax.swing.JLabel" name="validarCarb">
+            </Component>
+            <Component class="javax.swing.JLabel" name="validarProt">
+            </Component>
+            <Component class="javax.swing.JLabel" name="validarGord">
+            </Component>
+            <Component class="javax.swing.JLabel" name="validarCalorias">
             </Component>
           </SubComponents>
         </Container>
@@ -247,7 +269,7 @@
                 <Component class="javax.swing.JTable" name="tblAlimento">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="6" rowCount="4">
+                      <Table columnCount="6" rowCount="18">
                         <Column editable="true" title="ID" type="java.lang.Object"/>
                         <Column editable="true" title="Nome" type="java.lang.Object"/>
                         <Column editable="true" title="Carboidratos" type="java.lang.Object"/>

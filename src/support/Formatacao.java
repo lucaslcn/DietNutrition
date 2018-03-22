@@ -65,23 +65,6 @@ public class Formatacao {
         campo.setText(df.format(Double.parseDouble(campo.getText())));
     }
     
-    public static void formatarNumbersOnly(JFormattedTextField campo)
-    {
-        try
-        {
-            MaskFormatter m = new MaskFormatter();
-            m.setPlaceholderCharacter(' ');
-            m.setMask("##");
-            campo.setFormatterFactory(null);
-            campo.setFormatterFactory(new DefaultFormatterFactory(m));
-            campo.setValue(null);
-        }
-        catch (Exception e)
-                {
-                    System.err.println(e);
-                
-                }
-    }
     
     public static void formatarData(JFormattedTextField campo) {
         try {

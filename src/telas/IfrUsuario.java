@@ -9,6 +9,7 @@ import daos.usuarioDAO;
 import entidades.Usuario;
 import javax.swing.JOptionPane;
 import support.Formatacao;
+import support.Validacao;
 
 /**
  *
@@ -25,7 +26,7 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
     public IfrUsuario() {
         initComponents();
         
-        Formatacao.formatarNumbersOnly(tfdAltura);
+        Validacao.validarNumbersOnly(tfdAltura, validacao);
         Formatacao.formatarData(tfdDataNascimento);
         this.setTitle("Usuários");
         new usuarioDAO().popularTabela(tblUsuario, tfdCriterio.getText());
@@ -56,7 +57,8 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         tfdDataNascimento = new javax.swing.JFormattedTextField();
-        tfdAltura = new javax.swing.JFormattedTextField();
+        tfdAltura = new javax.swing.JTextField();
+        validacao = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblUsuario = new javax.swing.JTable();
@@ -141,12 +143,15 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tfdDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfdAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdNome, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jRadioButton1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(tfdAltura, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton2)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButton2)
+                            .addComponent(validacao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(190, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -165,7 +170,8 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(tfdAltura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdAltura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(validacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -175,7 +181,7 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(tfdDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addGap(116, 116, 116))
         );
 
         jTabbedPane1.addTab("Cadastro", jPanel1);
@@ -313,6 +319,7 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
             codigo = 0;
             new usuarioDAO().popularTabela(tblUsuario, tfdCriterio.getText());
         } else {
+            
             JOptionPane.showMessageDialog(null, "Problemas ao salvar registro!\n\n"
                     + "Mensagem técnica:\n" + retorno);
         }
@@ -378,10 +385,11 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable tblUsuario;
-    private javax.swing.JFormattedTextField tfdAltura;
+    private javax.swing.JTextField tfdAltura;
     private javax.swing.JTextField tfdCriterio;
     private javax.swing.JFormattedTextField tfdDataNascimento;
     private javax.swing.JTextField tfdEmail;
     private javax.swing.JTextField tfdNome;
+    private javax.swing.JLabel validacao;
     // End of variables declaration//GEN-END:variables
 }

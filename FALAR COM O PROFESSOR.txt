@@ -1,0 +1,4 @@
+1 - Data de nascimento nos campos de pesquisa e no momento de edição
+2 - "invalid number" no primeiro digito da validação de números
+3 - Mensagem de numero inválido em problemas ao salvar registro?
+4 - Usuário e senha = posso inserir colunas diretamente na tabela usuário?

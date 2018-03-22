@@ -114,12 +114,17 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="tfdDataNascimento" min="-2" pref="122" max="-2" attributes="0"/>
                           <Component id="tfdEmail" min="-2" pref="202" max="-2" attributes="0"/>
-                          <Component id="tfdAltura" min="-2" pref="41" max="-2" attributes="0"/>
                           <Component id="tfdNome" min="-2" pref="262" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jRadioButton1" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="tfdAltura" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jRadioButton1" alignment="0" max="32767" attributes="0"/>
+                              </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jRadioButton2" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jRadioButton2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="validacao" min="-2" pref="100" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace pref="190" max="32767" attributes="0"/>
@@ -145,6 +150,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfdAltura" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="validacao" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -157,7 +163,7 @@
                           <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfdDataNascimento" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="116" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -224,7 +230,9 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfdDataNascimentoActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JFormattedTextField" name="tfdAltura">
+            <Component class="javax.swing.JTextField" name="tfdAltura">
+            </Component>
+            <Component class="javax.swing.JLabel" name="validacao">
             </Component>
           </SubComponents>
         </Container>

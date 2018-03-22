@@ -10,6 +10,7 @@ import daos.usuarioDAO;
 import entidades.alimento;
 import javax.swing.JOptionPane;
 import support.Formatacao;
+import support.Validacao;
 
 /**
  *
@@ -24,10 +25,11 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
     public IfrAlimento() {
         initComponents();
         this.setTitle("Alimentos");
-        Formatacao.formatarNumbersOnly(tfdCarboidrato);
-        Formatacao.formatarNumbersOnly(tfdProteinas);
-        Formatacao.formatarNumbersOnly(tfdGorduras);
-        Formatacao.formatarNumbersOnly(tfdCalorias);
+        Validacao.validarNumbersOnly(tfdCarboidrato, validarCarb);
+        Validacao.validarNumbersOnly(tfdProteinas, validarProt);
+        Validacao.validarNumbersOnly(tfdGorduras, validarGord);
+        Validacao.validarNumbersOnly(tfdCalorias, validarCalorias);
+        new alimentoDAO().popularTabela(tblAlimento, tfdCriterio.getText());
     }
 
     /**
@@ -54,6 +56,10 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
         tfdProteinas = new javax.swing.JFormattedTextField();
         tfdGorduras = new javax.swing.JFormattedTextField();
         tfdCalorias = new javax.swing.JFormattedTextField();
+        validarCarb = new javax.swing.JLabel();
+        validarProt = new javax.swing.JLabel();
+        validarGord = new javax.swing.JLabel();
+        validarCalorias = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         tfdCriterio = new javax.swing.JTextField();
@@ -76,6 +82,11 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
         });
 
         Fechar.setText("Fechar");
+        Fechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FecharActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Nome do alimento");
 
@@ -108,7 +119,13 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
                     .addComponent(tfdProteinas)
                     .addComponent(tfdGorduras)
                     .addComponent(tfdCalorias))
-                .addContainerGap(223, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(validarCarb, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                    .addComponent(validarProt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(validarGord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(validarCalorias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(111, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,20 +137,24 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(tfdCarboidrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdCarboidrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(validarCarb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(tfdProteinas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdProteinas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(validarProt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(tfdGorduras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdGorduras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(validarGord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(tfdCalorias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(176, Short.MAX_VALUE))
+                    .addComponent(tfdCalorias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(validarCalorias, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(180, 180, 180))
         );
 
         jTabbedPane1.addTab("Cadastro", jPanel1);
@@ -149,6 +170,20 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
 
         tblAlimento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -221,17 +256,28 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
-        // TODO add your handling code here:
+        String valor = String.valueOf(tblAlimento.getValueAt(tblAlimento.getSelectedRow(), 0));
+        
+        alimento o = new alimentoDAO().consultarId(Integer.parseInt(valor));
+        
+        tfdNome.setText(o.getNome_alimento());
+        tfdCarboidrato.setValue(o.getCarboidratos_por_porcao());
+        tfdProteinas.setValue(o.getProteinas_por_porcao());
+        tfdGorduras.setValue(o.getGorduras_por_porcao());
+        tfdCalorias.setValue(o.getKcal_por_porcao());
+        codigo = o.getId();
+        
+        jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event_EditarActionPerformed
 
     private void SalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalvarActionPerformed
         
         alimento alimento = new alimento();
         alimento.setNome_alimento(tfdNome.getText());
-        alimento.setCarboidratos_por_porcao(Integer.parseInt(tfdCarboidrato.getText()));
-        alimento.setProteinas_por_porcao(Integer.parseInt(tfdProteinas.getText()));
-        alimento.setGorduras_por_porcao(Integer.parseInt(tfdGorduras.getText()));
-        alimento.setKcal_por_porcao(Integer.parseInt(tfdCalorias.getText()));
+        alimento.setCarboidratos_por_porcao(Double.parseDouble(tfdCarboidrato.getText()));
+        alimento.setProteinas_por_porcao(Double.parseDouble(tfdProteinas.getText()));
+        alimento.setGorduras_por_porcao(Double.parseDouble(tfdGorduras.getText()));
+        alimento.setKcal_por_porcao(Double.parseDouble(tfdCalorias.getText()));
         
         alimentoDAO alimentoDAO = new alimentoDAO();
         
@@ -258,12 +304,16 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
                     + "Mensagem técnica:\n" + retorno);
         }
         
-        
+    
     }//GEN-LAST:event_SalvarActionPerformed
 
     private void PesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PesquisarActionPerformed
         new alimentoDAO().popularTabela(tblAlimento, tfdCriterio.getText());
     }//GEN-LAST:event_PesquisarActionPerformed
+
+    private void FecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FecharActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_FecharActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -288,5 +338,9 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField tfdGorduras;
     private javax.swing.JTextField tfdNome;
     private javax.swing.JFormattedTextField tfdProteinas;
+    private javax.swing.JLabel validarCalorias;
+    private javax.swing.JLabel validarCarb;
+    private javax.swing.JLabel validarGord;
+    private javax.swing.JLabel validarProt;
     // End of variables declaration//GEN-END:variables
 }
