@@ -5,6 +5,9 @@
  */
 package telas;
 
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
 /**
  *
  * @author fabricio.pretto
@@ -18,6 +21,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
         initComponents();
         setTitle("DietNutrition");
         this.setExtendedState(MAXIMIZED_BOTH);
+
+        // aplica skin = LookAndFeel a todas as janelas
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+            //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (Exception e) {
+        }
+
     }
 
     /**

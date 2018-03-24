@@ -4,8 +4,7 @@
  * and open the template in the editor.
  */
 package entidades;
-import java.time.LocalDate;
-import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -23,6 +22,17 @@ public class Usuario {
     public int getId() {
         return id;
     }
+
+    public String getData_nascimento() {
+        return data_nascimento;
+    }
+
+    public void setData_nascimento(String data_nascimento) {
+        this.data_nascimento = data_nascimento;
+    }
+
+
+    
 
     public void setId(int id) {
         this.id = id;
@@ -60,14 +70,8 @@ public class Usuario {
         this.sexo = sexo;
     }
 
-    public String getData_nascimento() {
-        return data_nascimento;
-    }
 
-    public void setData_nascimento(String data_nascimento) {
-        this.data_nascimento = data_nascimento;
-    }
-
+    
 
     
 }

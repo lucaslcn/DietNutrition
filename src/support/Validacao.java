@@ -36,9 +36,11 @@ public class Validacao {
 
     public static void validarNumbersOnly(JTextField campo, JLabel validation) {
         campo.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e1) {
+            public void keyReleased(KeyEvent e1) {
                 try {
-                    double i = (Double.parseDouble(campo.getText()));
+                    
+                    
+                    double i = (Double.parseDouble(campo.getText().trim()));
                     validation.setText("");
                 } catch (NumberFormatException e) {
                     validation.setText("Invalid number");

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 import telas.FrmPrincipal;
+import telas.Login;
 
 /**
  *
@@ -23,6 +24,16 @@ public class DietNutrition {
         
         if (ConexaoBD.getInstance().getConnection() != null) {
             JOptionPane.showMessageDialog(null, "Abriu!");
+            
+
+            
+            new Login().setVisible(true);
+            
+            while(Login.isLoginCorreto())
+            {
+                new Login().getFocusListeners();
+            }
+            
             new FrmPrincipal().setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Deu problema!");

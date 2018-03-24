@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import support.ConexaoBD;
+import support.Formatacao;
 import support.IDAO_T;
 
 /**
@@ -60,8 +61,10 @@ public class usuarioDAO implements IDAO_T<Usuario> {
                     + "SET nome = '" + u.getNome() + "', "
                     + "email = '" + u.getEmail() + "',"
                     + "altura_cm = '" + u.getAltura_cm() + "',"
-                    + "sexo = '" + u.getSexo() + "' "
+                    + "sexo = '" + u.getSexo() + "', "
+                    + "data_nascimento = '" + u.getData_nascimento() + "'"
                     + "WHERE id = " + u.getId();
+                    
 
             System.out.println("sql: " + sql);
 
@@ -161,7 +164,7 @@ public class usuarioDAO implements IDAO_T<Usuario> {
                 dadosTabela[lin][2] = resultadoQ.getString("email");
                 dadosTabela[lin][3] = resultadoQ.getString("altura_cm");
                 dadosTabela[lin][4] = resultadoQ.getString("sexo");
-                dadosTabela[lin][5] = resultadoQ.getString("data_nascimento");
+                dadosTabela[lin][5] = Formatacao.ajustaDataDMA(resultadoQ.getString("data_nascimento"));
 
 
 
