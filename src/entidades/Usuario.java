@@ -18,6 +18,15 @@ public class Usuario {
     private int altura_cm;
     private char sexo;
     private String data_nascimento;
+    private boolean delete;
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
+    }
 
     public int getId() {
         return id;

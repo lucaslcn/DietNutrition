@@ -9,6 +9,7 @@ import daos.usuarioDAO;
 import entidades.Usuario;
 import javax.swing.JOptionPane;
 import support.Formatacao;
+import static support.Formatacao.isNumeric;
 import support.Validacao;
 
 /**
@@ -16,8 +17,7 @@ import support.Validacao;
  * @author fabricio.pretto
  */
 public class IfrUsuario extends javax.swing.JInternalFrame {
-    
-    
+
     int codigo = 0;
 
     /**
@@ -25,11 +25,11 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
      */
     public IfrUsuario() {
         initComponents();
-        
         Validacao.validarNumbersOnly(tfdAltura, validacao);
         Formatacao.formatarData(tfdDataNascimento);
         this.setTitle("Usuários");
         new usuarioDAO().popularTabela(tblUsuario, tfdCriterio.getText());
+        tfdAltura.setText("0");
     }
 
     /**
@@ -66,6 +66,7 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
         tfdCriterio = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
+        tfdExcluir = new javax.swing.JButton();
 
         btnFechar.setText("Fechar");
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
@@ -81,13 +82,13 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel3.setText("Nome");
+        jLabel3.setText("Nome*");
 
         jLabel4.setText("E-mail");
 
-        jLabel5.setText("Altura (cm)");
+        jLabel5.setText("Altura (cm)*");
 
-        jLabel6.setText("Sexo");
+        jLabel6.setText("Sexo*");
 
         tfdNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,7 +96,7 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel7.setText("Data de nascimento");
+        jLabel7.setText("Data de nascimento*");
 
         buttonGroup2.add(jRadioButton1);
         jRadioButton1.setText("Masculino");
@@ -116,6 +117,17 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
         tfdDataNascimento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfdDataNascimentoActionPerformed(evt);
+            }
+        });
+
+        tfdAltura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfdAlturaActionPerformed(evt);
+            }
+        });
+        tfdAltura.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfdAlturaKeyTyped(evt);
             }
         });
 
@@ -152,7 +164,7 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jRadioButton2)
                             .addComponent(validacao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(184, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,21 +201,29 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
 
         tblUsuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nome", "E-mail", "Altura (cm)", "Sexo", "Data de nascimento"
+                "ID", "Nome", "E-mail", "Altura (cm)", "Sexo", "Data de nascimento", "Situação"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblUsuario);
 
         jLabel2.setText("Nome");
@@ -253,6 +273,13 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
             }
         });
 
+        tfdExcluir.setText("Ativar / Desativar");
+        tfdExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfdExcluirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -264,7 +291,9 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
                         .addComponent(btnEditar)
                         .addGap(18, 18, 18)
                         .addComponent(btnSalvar)
-                        .addGap(50, 50, 50)
+                        .addGap(28, 28, 28)
+                        .addComponent(tfdExcluir)
+                        .addGap(26, 26, 26)
                         .addComponent(btnFechar))
                     .addComponent(jTabbedPane1))
                 .addContainerGap())
@@ -278,7 +307,8 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFechar)
                     .addComponent(btnSalvar)
-                    .addComponent(btnEditar))
+                    .addComponent(btnEditar)
+                    .addComponent(tfdExcluir))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -294,22 +324,34 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
         usuario.setNome(tfdNome.getText());
         usuario.setEmail(tfdEmail.getText());
         usuario.setAltura_cm(Integer.parseInt(tfdAltura.getText()));
-        if (jRadioButton1.isSelected()) { usuario.setSexo('M');}
-        if (jRadioButton2.isSelected()) { usuario.setSexo('F');}
+        if (jRadioButton1.isSelected()) {
+            usuario.setSexo('M');
+        }
+        if (jRadioButton2.isSelected()) {
+            usuario.setSexo('F');
+        }
         System.out.println(tfdDataNascimento.getText());
         usuario.setData_nascimento(tfdDataNascimento.getText());
-        
+
         usuarioDAO usuarioDAO = new usuarioDAO();
-        
+
         String retorno = null;
-        if (codigo == 0) {
-            retorno = usuarioDAO.salvar(usuario);
-        } else {
-            usuario.setId(codigo);
-            retorno = usuarioDAO.atualizar(usuario);
+
+        if ((tfdNome.getText().trim().isEmpty() == false) &&
+              (isNumeric(tfdAltura.getText())) &&
+                (buttonGroup2.getSelection() != null))
+                
+        {
+            if (codigo == 0) {
+                retorno = usuarioDAO.salvar(usuario);
+            } else {
+                usuario.setId(codigo);
+                retorno = usuarioDAO.atualizar(usuario);
+            }
         }
-        
-        if (retorno == null) {
+        if (retorno == null && (tfdNome.getText().trim().isEmpty() == false) &&
+              (isNumeric(tfdAltura.getText())) &&
+                (buttonGroup2.getSelection() != null)) {
             JOptionPane.showMessageDialog(null, "Registro salvo com sucesso!");
             tfdNome.setText("");
             tfdEmail.setText("");
@@ -320,8 +362,8 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
             codigo = 0;
             new usuarioDAO().popularTabela(tblUsuario, tfdCriterio.getText());
         } else {
-            
-            JOptionPane.showMessageDialog(null, "Problemas ao salvar registro!\n\n"
+
+            JOptionPane.showMessageDialog(null, "Problemas ao salvar registro! Verifique os dados informados\n\n"
                     + "Mensagem técnica:\n" + retorno);
         }
 
@@ -333,21 +375,25 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         String valor = String.valueOf(tblUsuario.getValueAt(tblUsuario.getSelectedRow(), 0));
-        
+
         Usuario u = new usuarioDAO().consultarId(Integer.parseInt(valor));
-        
+
         tfdNome.setText(u.getNome());
         tfdEmail.setText(u.getEmail());
         tfdAltura.setText(Integer.toString(u.getAltura_cm()));
-        if (u.getSexo() == 'M') {jRadioButton1.setSelected(true);}
-        if (u.getSexo() == 'F') {jRadioButton2.setSelected(true);}
+        if (u.getSexo() == 'M') {
+            jRadioButton1.setSelected(true);
+        }
+        if (u.getSexo() == 'F') {
+            jRadioButton2.setSelected(true);
+        }
         tfdDataNascimento.setText(Formatacao.ajustaDataDMA(u.getData_nascimento()));
-        
+
         System.out.println(u.getData_nascimento());
         System.out.println(Formatacao.ajustaDataDMA(u.getData_nascimento()));
-        
+
         codigo = u.getId();
-        
+
         jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event_btnEditarActionPerformed
 
@@ -366,6 +412,30 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton2ActionPerformed
+
+    private void tfdExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdExcluirActionPerformed
+
+        String valor = String.valueOf(tblUsuario.getValueAt(tblUsuario.getSelectedRow(), 0));
+        Usuario u = new usuarioDAO().consultarId(Integer.parseInt(valor));
+        codigo = u.getId();
+        String retorno = new usuarioDAO().excluir(codigo);
+
+        if (retorno == null) {
+            JOptionPane.showMessageDialog(null, "Alterado com sucesso");
+            new usuarioDAO().popularTabela(tblUsuario, "");
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao alterar usuario");
+        }
+
+    }//GEN-LAST:event_tfdExcluirActionPerformed
+
+    private void tfdAlturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdAlturaKeyTyped
+        Formatacao.forceNumbers(evt);
+    }//GEN-LAST:event_tfdAlturaKeyTyped
+
+    private void tfdAlturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdAlturaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfdAlturaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -392,7 +462,12 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JTextField tfdCriterio;
     private javax.swing.JFormattedTextField tfdDataNascimento;
     private javax.swing.JTextField tfdEmail;
+    private javax.swing.JButton tfdExcluir;
     private javax.swing.JTextField tfdNome;
     private javax.swing.JLabel validacao;
     // End of variables declaration//GEN-END:variables
+
+    private void setLocationRelativeTo(Object object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

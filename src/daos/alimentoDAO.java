@@ -34,7 +34,8 @@ public class alimentoDAO implements IDAO_T<alimento> {
                     + "'" + o.getCarboidratos_por_porcao() + "',"
                     + "'" + o.getProteinas_por_porcao() + "',"
                     + "'" + o.getGorduras_por_porcao() + "',"
-                    + "'" + o.getKcal_por_porcao() + "')";
+                    + "'" + o.getKcal_por_porcao() + "', "
+                    + "true)";
                     
 
             System.out.println("sql: " + sql);
@@ -55,13 +56,13 @@ public class alimentoDAO implements IDAO_T<alimento> {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "UPDATE alimento ("
+            String sql = "UPDATE alimento "
                     + "SET nome_alimento = '" + o.getNome_alimento() + "', "
                     + "carboidratos_por_porcao = '" + o.getCarboidratos_por_porcao() + "',"
                     + "proteinas_por_porcao = '" + o.getProteinas_por_porcao() + "',"
                     + "gorduras_por_porcao = '" + o.getGorduras_por_porcao() + "',"
-                    + "kcal_por_porcao = '" + o.getKcal_por_porcao() + "'"
-                    + "WHERE id = " + o.getId() + "')";
+                    + "kcal_por_porcao = '" + o.getKcal_por_porcao() + "' "
+                    + "WHERE id = " + o.getId() + ";";
                     
 
             System.out.println("sql: " + sql);
@@ -78,7 +79,21 @@ public class alimentoDAO implements IDAO_T<alimento> {
 
     @Override
     public String excluir(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = ("UPDATE alimento "
+                    + "set delete = NOT delete "
+                    + "WHERE id = " + id);
+
+            System.out.println("sql = " + sql);
+
+            int resultado = st.executeUpdate(sql);
+            return null;
+        } catch (Exception e) {
+            System.err.println("Erro ao excluir usuario");
+            return e.toString();
+        }
     }
 
     @Override
@@ -112,7 +127,7 @@ public class alimentoDAO implements IDAO_T<alimento> {
                 alimento.setProteinas_por_porcao(resultadoQ.getDouble("proteinas_por_porcao"));
                 alimento.setGorduras_por_porcao(resultadoQ.getDouble("gorduras_por_porcao"));
                 alimento.setKcal_por_porcao(resultadoQ.getDouble("kcal_por_porcao"));
-                
+                alimento.setDelete(resultadoQ.getBoolean("delete"));
                 return alimento;
             }
 
@@ -125,15 +140,15 @@ public class alimentoDAO implements IDAO_T<alimento> {
     public void popularTabela(JTable tabela, String criterio) {
         // dados da tabela
         Object[][] dadosTabela = null;
-
         // cabecalho da tabela
-        Object[] cabecalho = new Object[6];
+        Object[] cabecalho = new Object[7];
         cabecalho[0] = "Codigo";
         cabecalho[1] = "Nome";
         cabecalho[2] = "Carboidratos por porcão";
         cabecalho[3] = "Proteínas por porção";
         cabecalho[4] = "Gorduras por porção";
         cabecalho[5] = "Kcal por porção";
+        cabecalho[6] = "Situação";
 
         // cria matriz de acordo com nº de registros da tabela
         try {
@@ -142,7 +157,7 @@ public class alimentoDAO implements IDAO_T<alimento> {
 
             resultadoQ.next();
 
-            dadosTabela = new Object[resultadoQ.getInt(1)][6];
+            dadosTabela = new Object[resultadoQ.getInt(1)][7];
 
         } catch (Exception e) {
             System.out.println("Erro ao consultar XXX: " + e);
@@ -163,6 +178,7 @@ public class alimentoDAO implements IDAO_T<alimento> {
                 dadosTabela[lin][3] = resultadoQ.getDouble("proteinas_por_porcao");
                 dadosTabela[lin][4] = resultadoQ.getDouble("gorduras_por_porcao");
                 dadosTabela[lin][5] = resultadoQ.getDouble("kcal_por_porcao");
+                dadosTabela[lin][6] = resultadoQ.getBoolean("delete");
 
 
 

@@ -106,9 +106,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JPasswordField" name="tfdSenha">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jPasswordField1"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfdLogin">
     </Component>

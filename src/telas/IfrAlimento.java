@@ -10,6 +10,7 @@ import daos.usuarioDAO;
 import entidades.alimento;
 import javax.swing.JOptionPane;
 import support.Formatacao;
+import static support.Formatacao.isNumeric;
 import support.Validacao;
 
 /**
@@ -17,8 +18,9 @@ import support.Validacao;
  * @author Lucas
  */
 public class IfrAlimento extends javax.swing.JInternalFrame {
-    
+
     int codigo = 0;
+
     /**
      * Creates new form IfrAlimento
      */
@@ -29,7 +31,13 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
         Validacao.validarNumbersOnly(tfdProteinas, validarProt);
         Validacao.validarNumbersOnly(tfdGorduras, validarGord);
         Validacao.validarNumbersOnly(tfdCalorias, validarCalorias);
+        tfdCarboidrato.setText("0");
+        tfdProteinas.setText("0");
+        tfdGorduras.setText("0");
+        tfdCalorias.setText("0");
+        tfdNome.requestFocus();
         new alimentoDAO().popularTabela(tblAlimento, tfdCriterio.getText());
+        
     }
 
     /**
@@ -66,6 +74,7 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
         Pesquisar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAlimento = new javax.swing.JTable();
+        Excluir = new javax.swing.JButton();
 
         Editar.setText("Editar");
         Editar.addActionListener(new java.awt.event.ActionListener() {
@@ -88,15 +97,39 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setText("Nome do alimento");
+        jLabel1.setText("Nome do alimento*");
 
-        jLabel2.setText("Proteínas por porção");
+        jLabel2.setText("Proteínas por porção*");
 
-        jLabel3.setText("Carboidratos por porção");
+        jLabel3.setText("Carboidratos por porção*");
 
-        jLabel4.setText("Gorduras por porção");
+        jLabel4.setText("Gorduras por porção*");
 
-        jLabel5.setText("Calorias por porção");
+        jLabel5.setText("Calorias por porção*");
+
+        tfdCarboidrato.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfdCarboidratoKeyTyped(evt);
+            }
+        });
+
+        tfdProteinas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfdProteinasKeyTyped(evt);
+            }
+        });
+
+        tfdGorduras.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfdGordurasKeyTyped(evt);
+            }
+        });
+
+        tfdCalorias.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfdCaloriasKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -125,7 +158,7 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
                     .addComponent(validarProt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(validarGord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(validarCalorias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,20 +168,23 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(tfdNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(tfdCarboidrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(validarCarb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(validarCarb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(tfdCarboidrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(tfdProteinas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(validarProt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(validarProt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(tfdProteinas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(tfdGorduras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(validarGord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(validarGord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(tfdGorduras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -170,29 +206,37 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
 
         tblAlimento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nome", "Carboidratos", "Proteínas", "Gorduras", "Calorias"
+                "ID", "Nome", "Carboidratos", "Proteínas", "Gorduras", "Calorias", "Situação"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblAlimento);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -219,12 +263,19 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Pesquisar))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addGap(23, 23, 23))
         );
 
         jTabbedPane1.addTab("Listagem", jPanel2);
+
+        Excluir.setText("Ativar / Desativar");
+        Excluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -234,21 +285,25 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Editar)
                 .addGap(18, 18, 18)
-                .addComponent(Salvar)
-                .addGap(78, 78, 78)
+                .addComponent(Salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(Excluir)
+                .addGap(23, 23, 23)
                 .addComponent(Fechar)
-                .addGap(30, 30, 30))
+                .addGap(26, 26, 26))
             .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jTabbedPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Editar)
-                    .addComponent(Salvar)
-                    .addComponent(Fechar))
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Fechar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(Salvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Editar)
+                        .addComponent(Excluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -257,54 +312,64 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
 
     private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
         String valor = String.valueOf(tblAlimento.getValueAt(tblAlimento.getSelectedRow(), 0));
-        
+
         alimento o = new alimentoDAO().consultarId(Integer.parseInt(valor));
-        
+
         tfdNome.setText(o.getNome_alimento());
+        System.out.println(o.getCarboidratos_por_porcao());
+        
         tfdCarboidrato.setValue(o.getCarboidratos_por_porcao());
         tfdProteinas.setValue(o.getProteinas_por_porcao());
         tfdGorduras.setValue(o.getGorduras_por_porcao());
         tfdCalorias.setValue(o.getKcal_por_porcao());
         codigo = o.getId();
-        
+
         jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event_EditarActionPerformed
 
     private void SalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalvarActionPerformed
-        
+
+        String entrada = tfdCarboidrato.getText();
         alimento alimento = new alimento();
         alimento.setNome_alimento(tfdNome.getText());
-        alimento.setCarboidratos_por_porcao(Double.parseDouble(tfdCarboidrato.getText()));
-        alimento.setProteinas_por_porcao(Double.parseDouble(tfdProteinas.getText()));
-        alimento.setGorduras_por_porcao(Double.parseDouble(tfdGorduras.getText()));
-        alimento.setKcal_por_porcao(Double.parseDouble(tfdCalorias.getText()));
-        
+        alimento.setCarboidratos_por_porcao(Double.parseDouble(tfdCarboidrato.getText().replace(',','.')));
+        alimento.setProteinas_por_porcao(Double.parseDouble(tfdProteinas.getText().replace(',','.')));
+        alimento.setGorduras_por_porcao(Double.parseDouble(tfdGorduras.getText().replace(',','.')));
+        alimento.setKcal_por_porcao(Double.parseDouble(tfdCalorias.getText().replace(',','.')));
+
         alimentoDAO alimentoDAO = new alimentoDAO();
-        
+
         String retorno = null;
-        if (codigo == 0) {
-            retorno = alimentoDAO.salvar(alimento);
-        } else {
-            alimento.setId(codigo);
-            retorno = alimentoDAO.atualizar(alimento);
+
+        if (tfdNome.getText().trim().isEmpty() == false
+                || isNumeric(tfdCalorias.getText())
+                || isNumeric(tfdProteinas.getText())
+                || isNumeric(tfdGorduras.getText())
+                || isNumeric(tfdCalorias.getText())) {
+
+            if (codigo == 0) {
+                retorno = alimentoDAO.salvar(alimento);
+            } else {
+                alimento.setId(codigo);
+                retorno = alimentoDAO.atualizar(alimento);
+            }
         }
-        
-        if (retorno == null) {
+        if (retorno == null && (tfdNome.getText().trim().isEmpty() == false)) {
             JOptionPane.showMessageDialog(null, "Registro salvo com sucesso!");
             tfdNome.setText("");
-            tfdCarboidrato.setText("");
-            tfdProteinas.setText("");
-            tfdGorduras.setText("");
-            tfdCalorias.setText("");
+            tfdCarboidrato.setText("0");
+            tfdProteinas.setText("0");
+            tfdGorduras.setText("0");
+            tfdCalorias.setText("0");
             tfdNome.requestFocus();
             codigo = 0;
             new alimentoDAO().popularTabela(tblAlimento, tfdCriterio.getText());
         } else {
-            JOptionPane.showMessageDialog(null, "Problemas ao salvar registro!\n\n"
+            JOptionPane.showMessageDialog(null, "Problemas ao salvar registro! Verifique os dados informados\n\n"
                     + "Mensagem técnica:\n" + retorno);
         }
-        
-    
+
+
     }//GEN-LAST:event_SalvarActionPerformed
 
     private void PesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PesquisarActionPerformed
@@ -315,9 +380,41 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_FecharActionPerformed
 
+    private void ExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExcluirActionPerformed
+        String valor = String.valueOf(tblAlimento.getValueAt(tblAlimento.getSelectedRow(), 0));
+        alimento a = new alimentoDAO().consultarId(Integer.parseInt(valor));
+        codigo = a.getId();
+
+        String retorno = new alimentoDAO().excluir(codigo);
+
+        if (retorno == null) {
+            JOptionPane.showMessageDialog(null, "Alterado com sucesso");
+            new alimentoDAO().popularTabela(tblAlimento, "");
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao alterar");
+        }
+    }//GEN-LAST:event_ExcluirActionPerformed
+
+    private void tfdCarboidratoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdCarboidratoKeyTyped
+        Formatacao.forceDotsAndNumbers(evt);
+    }//GEN-LAST:event_tfdCarboidratoKeyTyped
+
+    private void tfdProteinasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdProteinasKeyTyped
+        Formatacao.forceDotsAndNumbers(evt);
+    }//GEN-LAST:event_tfdProteinasKeyTyped
+
+    private void tfdGordurasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdGordurasKeyTyped
+        Formatacao.forceDotsAndNumbers(evt);
+    }//GEN-LAST:event_tfdGordurasKeyTyped
+
+    private void tfdCaloriasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdCaloriasKeyTyped
+        Formatacao.forceDotsAndNumbers(evt);
+    }//GEN-LAST:event_tfdCaloriasKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Editar;
+    private javax.swing.JButton Excluir;
     private javax.swing.JButton Fechar;
     private javax.swing.JButton Pesquisar;
     private javax.swing.JButton Salvar;
@@ -343,4 +440,8 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
     private javax.swing.JLabel validarGord;
     private javax.swing.JLabel validarProt;
     // End of variables declaration//GEN-END:variables
+
+    private void setLocationRelativeTo(Object object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

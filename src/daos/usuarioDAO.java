@@ -33,12 +33,12 @@ public class usuarioDAO implements IDAO_T<Usuario> {
 
             String sql = "INSERT INTO usuario VALUES ("
                     + "DEFAULT, "
-                    + "'" + u.getNome()+ "', "
-                    + "'" + u.getEmail()+ "',"
-                    + "'" + u.getAltura_cm()+"',"
-                    + "'" + u.getSexo()+"',"
-                    + "'" + u.getData_nascimento()+"')";
-                    
+                    + "'" + u.getNome() + "', "
+                    + "'" + u.getEmail() + "',"
+                    + "'" + u.getAltura_cm() + "',"
+                    + "'" + u.getSexo() + "',"
+                    + "'" + u.getData_nascimento() + "', "
+                    + "true)";
 
             System.out.println("sql: " + sql);
 
@@ -64,7 +64,6 @@ public class usuarioDAO implements IDAO_T<Usuario> {
                     + "sexo = '" + u.getSexo() + "', "
                     + "data_nascimento = '" + u.getData_nascimento() + "'"
                     + "WHERE id = " + u.getId();
-                    
 
             System.out.println("sql: " + sql);
 
@@ -80,7 +79,21 @@ public class usuarioDAO implements IDAO_T<Usuario> {
 
     @Override
     public String excluir(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = ("UPDATE usuario "
+                    + "set delete = NOT delete "
+                    + "WHERE id = " + id);
+
+            System.out.println("sql = " + sql);
+
+            int resultado = st.executeUpdate(sql);
+            return null;
+        } catch (Exception e) {
+            System.err.println("Erro ao excluir usuario");
+            return e.toString();
+        }
     }
 
     @Override
@@ -114,6 +127,7 @@ public class usuarioDAO implements IDAO_T<Usuario> {
                 usuario.setAltura_cm(resultadoQ.getInt("altura_cm"));
                 usuario.setSexo(resultadoQ.getString("sexo").charAt(0));
                 usuario.setData_nascimento(resultadoQ.getString("data_nascimento"));
+                usuario.setDelete(resultadoQ.getBoolean("delete"));
 
                 return usuario;
             }
@@ -129,13 +143,14 @@ public class usuarioDAO implements IDAO_T<Usuario> {
         Object[][] dadosTabela = null;
 
         // cabecalho da tabela
-        Object[] cabecalho = new Object[6];
+        Object[] cabecalho = new Object[7];
         cabecalho[0] = "Código";
         cabecalho[1] = "Nome";
         cabecalho[2] = "Email";
         cabecalho[3] = "Altura";
         cabecalho[4] = "Sexo";
         cabecalho[5] = "Data nasc.";
+        cabecalho[6] = "Situação";
 
         // cria matriz de acordo com nº de registros da tabela
         try {
@@ -144,7 +159,7 @@ public class usuarioDAO implements IDAO_T<Usuario> {
 
             resultadoQ.next();
 
-            dadosTabela = new Object[resultadoQ.getInt(1)][6];
+            dadosTabela = new Object[resultadoQ.getInt(1)][7];
 
         } catch (Exception e) {
             System.out.println("Erro ao consultar XXX: " + e);
@@ -165,8 +180,7 @@ public class usuarioDAO implements IDAO_T<Usuario> {
                 dadosTabela[lin][3] = resultadoQ.getString("altura_cm");
                 dadosTabela[lin][4] = resultadoQ.getString("sexo");
                 dadosTabela[lin][5] = Formatacao.ajustaDataDMA(resultadoQ.getString("data_nascimento"));
-
-
+                dadosTabela[lin][6] = resultadoQ.getBoolean("delete");
 
                 // caso a coluna precise exibir uma imagem
 //                if (resultadoQ.getBoolean("Situacao")) {

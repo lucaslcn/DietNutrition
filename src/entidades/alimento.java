@@ -17,7 +17,16 @@ public class alimento {
     private double carboidratos_por_porcao;
     private double gorduras_por_porcao;
     private double kcal_por_porcao;
+    private boolean delete;
 
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
+    }
+    
     public int getId() {
         return id;
     }

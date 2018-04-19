@@ -5,6 +5,8 @@
  */
 package support;
 
+import com.sun.glass.events.KeyEvent;
+import static com.sun.javafx.tk.Toolkit.getToolkit;
 import java.text.*;
 import java.util.Date;
 import java.util.Locale;
@@ -165,4 +167,26 @@ public class Formatacao {
 
         return dataHoje;
     }
+    
+     public static boolean isNumeric(String string) {
+      return string.matches("^[-+]?\\d+(\\.\\d+)?$");
+  }
+     
+     public static void forceDotsAndNumbers(java.awt.event.KeyEvent evt){                                   
+        char c = evt.getKeyChar();
+        
+        if(!(Character.isDigit(c) || c ==  KeyEvent.VK_BACKSPACE || c == KeyEvent.VK_DELETE || c == KeyEvent.VK_PERIOD))
+        {
+            evt.consume();
+        }
+     }
+        
+     public static void forceNumbers(java.awt.event.KeyEvent evt){                                   
+        char c = evt.getKeyChar();
+        
+        if(!(Character.isDigit(c) || c ==  KeyEvent.VK_BACKSPACE || c == KeyEvent.VK_DELETE))
+        {
+            evt.consume();
+        }   
+    }                                  
 }

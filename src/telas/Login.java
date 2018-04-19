@@ -5,11 +5,12 @@
  */
 package telas;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import daos.usuarioDAO;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import support.ConexaoBD;
 
 /**
@@ -30,6 +31,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         this.setTitle("DietNutrition");
+        this.setLocationRelativeTo(null);
         ResultSet resultadoQ = null;
     }
 
@@ -61,8 +63,6 @@ public class Login extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Senha:");
-
-        tfdSenha.setText("jPasswordField1");
 
         icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/randy_marsh_workout_icon.png"))); // NOI18N
 
@@ -133,35 +133,31 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_EntrarMouseReleased
 
     private void EntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntrarActionPerformed
-            
-                    try {
-                        Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-                        ResultSet resultadoQ = null;
-                        ResultSet resultadoQ2 = null;
-                        
-                        String admin = ("SELECT id FROM usuario WHERE NOME ILIKE '" + tfdLogin.getText().trim() + "';");
-                                     
-                        String senha = ("SELECT id from usuario WHERE SENHA = '" + tfdSenha.getText().trim() + "';");
-                        
-                        System.out.println("sql_admin = " + admin);
-                        System.out.println("sql_senha = " + senha);
-                        resultadoQ = st.executeQuery(admin);
-                        resultadoQ2 = st.executeQuery(senha);
-                        if (resultadoQ == resultadoQ2)
-                        {
-                            loginCorreto = true;
-                        }
-                        
 
-                    } catch (Exception e) {
-                        System.out.println("Erro ao fazer login" + e);
-                    }
-        
-        if(loginCorreto){this.dispose();}
-        
-        
-       
-        
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String check = ("SELECT id FROM usuario WHERE username = '" + tfdLogin.getText().trim() + "'"
+                           +" AND senha = '" + tfdSenha.getText()+ "';");
+
+            System.out.println("sql_check = " + check);
+
+           ResultSet rs = null;
+           rs = st.executeQuery(check);
+
+            if(rs.next()){
+                loginCorreto = true;
+                this.dispose();
+                new FrmPrincipal().setVisible(true);
+                
+            } else {
+                System.out.println("false");
+                JOptionPane.showMessageDialog(null, "Usuário e/ou senha incorretos, tente novamente");
+            }
+        } catch (Exception e) {
+            System.out.println("Erro salvar usuario = " + e);
+            System.out.println (e.toString());
+        }
 
     }//GEN-LAST:event_EntrarActionPerformed
 
@@ -179,16 +175,40 @@ public class Login extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+                
+
+
+
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+
+
+} catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Login.class
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+
+
+} catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Login.class
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+
+
+} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Login.class
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

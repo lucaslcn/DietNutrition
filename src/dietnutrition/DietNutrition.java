@@ -24,17 +24,8 @@ public class DietNutrition {
         
         if (ConexaoBD.getInstance().getConnection() != null) {
             JOptionPane.showMessageDialog(null, "Abriu!");
-            
-
-            
             new Login().setVisible(true);
             
-            while(Login.isLoginCorreto())
-            {
-                new Login().getFocusListeners();
-            }
-            
-            new FrmPrincipal().setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Deu problema!");
         }
