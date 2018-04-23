@@ -36,6 +36,13 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Consumo Di&#xe1;rio"/>
           </Properties>
+          <SubComponents>
+            <Menu class="javax.swing.JMenu" name="jMenu4">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Adicionar recordat&#xf3;rio"/>
+              </Properties>
+            </Menu>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu3">
           <Properties>

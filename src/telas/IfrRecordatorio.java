@@ -5,6 +5,9 @@
  */
 package telas;
 
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
 /**
  *
  * @author Lucas
@@ -16,7 +19,8 @@ public class IfrRecordatorio extends javax.swing.JInternalFrame {
      */
     public IfrRecordatorio() {
         initComponents();
-        this.setTitle("Dieta");
+        this.setTitle("Recordatório Alimentar");
+        
     }
 
     /**
