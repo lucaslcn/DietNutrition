@@ -15,6 +15,15 @@ public class resumo_dia {
     private int id;
     private float saldoKcal;
     private LocalDate data;
+    private int usuario_id;
+
+    public int getUsuario_id() {
+        return usuario_id;
+    }
+
+    public void setUsuario_id(int usuario_id) {
+        this.usuario_id = usuario_id;
+    }
 
     public int getId() {
         return id;

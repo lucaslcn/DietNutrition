@@ -13,15 +13,18 @@ import telas.*;
  *
  * @author Lucas
  */
-public class IfrRecordatorioLogin extends javax.swing.JInternalFrame {
+public class IfrResumoDiaAccess extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form IfrRecordatorioLogin
      */
-    public IfrRecordatorioLogin() {
+    public IfrResumoDiaAccess() {
         initComponents();
         this.setTitle("Recordatório");
-           CombosDAO combosDAO = new CombosDAO();
+        CombosDAO combosDAO = new CombosDAO();
+        combosDAO.popularCombo("usuario", jComboBox1);
+        ComboItens itens = new ComboItens();
+        combosDAO.definirItemCombo(jComboBox1, itens);
     }
 
     /**
@@ -40,7 +43,6 @@ public class IfrRecordatorioLogin extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Selecione o usuário que deseja acessar o recordatório");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -48,6 +50,11 @@ public class IfrRecordatorioLogin extends javax.swing.JInternalFrame {
         });
 
         jButton1.setText("Acessar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -82,11 +89,19 @@ public class IfrRecordatorioLogin extends javax.swing.JInternalFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         
-        CombosDAO combosDAO = new CombosDAO();
-        combosDAO.popularCombo("usuario", jComboBox1);
-        combosDAO.definirItemCombo(jComboBox1, item);
         
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        ComboItens selecionado = new ComboItens();
+        selecionado = (ComboItens) jComboBox1.getSelectedItem();
+        IfrResumoDia ifrResumoDia = new IfrResumoDia(selecionado.getCodigo());
+        ifrResumoDia.setVisible(true);
+        this.dispose();
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
