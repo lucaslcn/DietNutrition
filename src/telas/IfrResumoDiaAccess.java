@@ -6,8 +6,8 @@
 package telas;
 
 import daos.CombosDAO;
+import javax.swing.JDesktopPane;
 import support.ComboItens;
-import telas.*;
 
 /**
  *
@@ -15,16 +15,19 @@ import telas.*;
  */
 public class IfrResumoDiaAccess extends javax.swing.JInternalFrame {
 
+    JDesktopPane painel = null;
+    
     /**
      * Creates new form IfrRecordatorioLogin
      */
-    public IfrResumoDiaAccess() {
+    public IfrResumoDiaAccess(JDesktopPane painel) {
         initComponents();
         this.setTitle("Recordatório");
         CombosDAO combosDAO = new CombosDAO();
         combosDAO.popularCombo("usuario", jComboBox1);
         ComboItens itens = new ComboItens();
         combosDAO.definirItemCombo(jComboBox1, itens);
+        this.painel = painel;
     }
 
     /**
@@ -88,19 +91,20 @@ public class IfrResumoDiaAccess extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        
-        
+
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
+        this.dispose();
         ComboItens selecionado = new ComboItens();
         selecionado = (ComboItens) jComboBox1.getSelectedItem();
+        System.out.println("id: " + selecionado.getCodigo());
         IfrResumoDia ifrResumoDia = new IfrResumoDia(selecionado.getCodigo());
+        painel.add(ifrResumoDia);
         ifrResumoDia.setVisible(true);
-        this.dispose();
-        
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

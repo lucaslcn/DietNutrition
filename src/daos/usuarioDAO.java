@@ -182,6 +182,11 @@ public class usuarioDAO implements IDAO_T<Usuario> {
                 dadosTabela[lin][5] = Formatacao.ajustaDataDMA(resultadoQ.getString("data_nascimento"));
                 dadosTabela[lin][6] = resultadoQ.getBoolean("delete");
 
+                if (resultadoQ.getBoolean("delete"))
+                {
+                    dadosTabela[lin][6] = "Ativo";
+                }
+                else { dadosTabela[lin][6] = "Inativo";}
                 // caso a coluna precise exibir uma imagem
 //                if (resultadoQ.getBoolean("Situacao")) {
 //                    dadosTabela[lin][2] = new ImageIcon(getClass().getClassLoader().getResource("Interface/imagens/status_ativo.png"));

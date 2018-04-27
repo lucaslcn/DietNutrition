@@ -179,6 +179,12 @@ public class alimentoDAO implements IDAO_T<alimento> {
                 dadosTabela[lin][4] = resultadoQ.getDouble("gorduras_por_porcao");
                 dadosTabela[lin][5] = resultadoQ.getDouble("kcal_por_porcao");
                 dadosTabela[lin][6] = resultadoQ.getBoolean("delete");
+                
+                 if (resultadoQ.getBoolean("delete"))
+                {
+                    dadosTabela[lin][6] = "Ativo";
+                }
+                else { dadosTabela[lin][6] = "Inativo";}
 
 
 
