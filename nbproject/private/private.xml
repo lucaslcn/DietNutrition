@@ -3,12 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Lucas/Desktop/Programação%20de%20Aplicações/DietNutrition/DietNutrition/src/telas/Login.java</file>
-            <file>file:/C:/Users/Lucas/Desktop/Programação%20de%20Aplicações/DietNutrition/DietNutrition/src/daos/Consumo_alimentoDAO.java</file>
-            <file>file:/C:/Users/Lucas/Desktop/Programação%20de%20Aplicações/DietNutrition/DietNutrition/src/telas/FrmPrincipal.java</file>
-            <file>file:/C:/Users/Lucas/Desktop/Programação%20de%20Aplicações/DietNutrition/DietNutrition/src/daos/usuarioDAO.java</file>
-            <file>file:/C:/Users/Lucas/Desktop/Programação%20de%20Aplicações/DietNutrition/DietNutrition/src/daos/alimentoDAO.java</file>
-            <file>file:/C:/Users/Lucas/Desktop/Programação%20de%20Aplicações/DietNutrition/DietNutrition/src/relatorios/list_usuarios.jrxml</file>
+            <file>file:/C:/Users/Lucas/Documents/GitHub/DietNutrition/src/dietnutrition/DietNutrition.java</file>
+            <file>file:/C:/Users/Lucas/Documents/GitHub/DietNutrition/src/telas/IfrAlimento.java</file>
+            <file>file:/C:/Users/Lucas/Documents/GitHub/DietNutrition/src/entidades/resumo_dia.java</file>
+            <file>file:/C:/Users/Lucas/Documents/GitHub/DietNutrition/src/telas/IfrUsuario.java</file>
+            <file>file:/C:/Users/Lucas/Documents/GitHub/DietNutrition/src/daos/usuarioDAO.java</file>
+            <file>file:/C:/Users/Lucas/Documents/GitHub/DietNutrition/src/telas/IfrResumoDia.java</file>
+            <file>file:/C:/Users/Lucas/Documents/GitHub/DietNutrition/src/telas/FrmPrincipal.java</file>
+            <file>file:/C:/Users/Lucas/Documents/GitHub/DietNutrition/src/entidades/alimento.java</file>
+            <file>file:/C:/Users/Lucas/Documents/GitHub/DietNutrition/src/daos/alimentoDAO.java</file>
+            <file>file:/C:/Users/Lucas/Documents/GitHub/DietNutrition/src/entidades/consumo_alimento.java</file>
         </group>
     </open-files>
 </project-private>

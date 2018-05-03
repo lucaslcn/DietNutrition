@@ -1,7 +1,9 @@
 package daos;
 import entidades.*;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import support.ConexaoBD;
 import support.IDAO_T;
 
 /*
@@ -21,7 +23,27 @@ public class Consumo_alimentoDAO implements IDAO_T<consumo_alimento> {
     
     @Override
     public String salvar(consumo_alimento o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "INSERT INTO alimento VALUES ("
+                    + "DEFAULT, "
+                    + "'" + o.getNome_alimento() + "', "
+                    + "'" + o.getCarboidratos_por_porcao() + "',"
+                    + "true)";
+                    
+
+            System.out.println("sql: " + sql);
+
+            int resultado = st.executeUpdate(sql);
+
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("Erro salvar alimento = " + e);
+            return e.toString();
+        }
+    }
     }
 
     @Override

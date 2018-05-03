@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="list_alimentos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ea712c93-5af7-4ee5-b4a2-e68dd26788ed">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT * FROM ALIMENTO]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="nome_alimento" class="java.lang.String"/>
+	<field name="carboidratos_por_porcao" class="java.lang.Double"/>
+	<field name="proteinas_por_porcao" class="java.lang.Double"/>
+	<field name="gorduras_por_porcao" class="java.lang.Double"/>
+	<field name="kcal_por_porcao" class="java.lang.Double"/>
+	<field name="delete" class="java.lang.Boolean"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="31" y="0" width="29" height="20" uuid="80b73c8f-28ae-48df-91d8-143157c2aeb2"/>
+				<text><![CDATA[id]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="93" y="0" width="100" height="20" uuid="c7eb7dec-a64f-47aa-b47b-09fc36ea7dd7"/>
+				<textElement markup="none"/>
+				<textFieldExpression><![CDATA["nome_alimento"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="212" y="0" width="62" height="20" uuid="9e90eb3c-7146-49e2-be2a-9f26bae9cda7"/>
+				<textElement markup="none"/>
+				<textFieldExpression><![CDATA["carboidratos_por_porcao"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="294" y="0" width="49" height="20" uuid="8bfecc8f-ad52-48ce-8205-392593f03b20"/>
+				<textElement markup="none"/>
+				<textFieldExpression><![CDATA["proteinas_por_porcao"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="366" y="0" width="50" height="20" uuid="ffe5604a-ede9-4090-a9fd-1fcdc11366f0"/>
+				<textElement markup="none"/>
+				<textFieldExpression><![CDATA["gorduras_por_porcao"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="437" y="0" width="100" height="20" uuid="0d44f7a3-18e8-49ac-825d-ae5dcddca330"/>
+				<text><![CDATA[kcal_por_porcao]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="31" y="0" width="29" height="16" uuid="fe169e4a-c982-499e-a3ec-bb7c41a5df6a"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="0" width="100" height="20" uuid="17c2967b-4236-44b8-a6d9-fa46eff2d1c9"/>
+				<textFieldExpression><![CDATA[$F{nome_alimento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="212" y="0" width="62" height="20" uuid="18b0b0fa-a0c9-4cf2-95f9-69af2e35c347"/>
+				<textFieldExpression><![CDATA[$F{carboidratos_por_porcao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="294" y="0" width="49" height="20" uuid="984350a9-8a48-49a3-89b3-2db2c00bb1d2"/>
+				<textFieldExpression><![CDATA[$F{proteinas_por_porcao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="366" y="0" width="50" height="20" uuid="6d2ae3fc-eec8-44cb-b055-0a82700f7996"/>
+				<textFieldExpression><![CDATA[$F{gorduras_por_porcao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="0" width="100" height="20" uuid="ee9f03c8-6af7-4fef-b470-7853a647635b"/>
+				<textFieldExpression><![CDATA[$F{kcal_por_porcao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
