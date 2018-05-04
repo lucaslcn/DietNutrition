@@ -7,7 +7,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT * FROM ALIMENTO ORDER BY kcal_por_porcao $P{selected}]]>
+		<![CDATA[SELECT * FROM ALIMENTO ORDER BY kcal_por_porcao $P!{selected}]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer"/>
 	<field name="nome_alimento" class="java.lang.String"/>

@@ -11,16 +11,35 @@ package entidades;
  */
 public class consumo_alimento {
     
-    private int id;
+    private int dieta_id;
+    private int alimento_id;
+    private float numero_porcoes;
 
+    public int getDieta_id() {
+        return dieta_id;
+    }
+
+    public void setDieta_id(int dieta_id) {
+        this.dieta_id = dieta_id;
+    }
+
+    public int getAlimento_id() {
+        return alimento_id;
+    }
+
+    public void setAlimento_id(int alimento_id) {
+        this.alimento_id = alimento_id;
+    }
+
+    
+    
     public int getId() {
-        return id;
+        return alimento_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.alimento_id = id;
     }
-    private float numero_porcoes;
     
 
     public float getNumero_porcoes() {

@@ -21,13 +21,15 @@ public class Consumo_alimentoDAO implements IDAO_T<consumo_alimento> {
     ResultSet ResultadoQ = null;
     
     
-    @Override
-    public String salvar(consumo_alimento o) {
+    public String salvar(consumo_alimento o, int resumo_id) {
          try {
+            
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-
-            String sql = "INSERT INTO alimento VALUES ("
-                    + "DEFAULT, "
+            resumo_diaDAO resumo_diaDAO = new resumo_diaDAO();
+            
+            
+            String sql = "INSERT INTO consumo_alimento VALUES ("
+                    + " "
                     + "'" + o.getNome_alimento() + "', "
                     + "'" + o.getCarboidratos_por_porcao() + "',"
                     + "true)";
@@ -43,6 +45,36 @@ public class Consumo_alimentoDAO implements IDAO_T<consumo_alimento> {
             System.out.println("Erro salvar alimento = " + e);
             return e.toString();
         }
+    }
+
+    @Override
+    public String atualizar(consumo_alimento o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String excluir(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<consumo_alimento> consultarTodos() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<consumo_alimento> consultar(String criterio) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public consumo_alimento consultarId(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String salvar(consumo_alimento o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     }
 
