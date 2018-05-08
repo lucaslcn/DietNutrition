@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import javax.swing.JComboBox;
 import support.ComboItens;
 import support.ConexaoBD;
+import support.Formatacao;
 
 
 /**
@@ -17,6 +18,33 @@ import support.ConexaoBD;
 public class CombosDAO {
 
     ResultSet resultado = null;
+    
+    public void popularComboUserDate(int id_usuario, JComboBox combo)
+    {
+        ComboItens item = new ComboItens();
+        item.setCodigo(0);
+        item.setDescricao("Selecione a data desejada");
+        combo.addItem(item);
+
+        
+         try {
+            resultado = new ConexaoBD().getConnection().createStatement().executeQuery(
+                    "SELECT r.id,r.data from resumo_dia r, usuario u WHERE r.usuario_id = "+ id_usuario+""
+                            + " AND r.usuario_id = u.id");
+
+            if (resultado.isBeforeFirst()) {
+                while (resultado.next()) {
+                    item = new ComboItens();
+                    item.setCodigo(resultado.getInt(1));
+                    item.setDescricao(Formatacao.ajustaDataDMA(resultado.getString(2)));
+
+                    combo.addItem(item);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao popular Combo = " + e.toString());
+        }
+    }
 
     public void popularCombo(String tabela, JComboBox combo) {
 

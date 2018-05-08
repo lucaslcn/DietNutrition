@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dlgRecordatorioData" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e9357f62-b7a0-4bee-8090-e3c8a1aea7c9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="42"/>
+	<parameter name="user_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="data" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT u.nome as Nome, r.data as Data,      SUM(a.kcal_por_porcao*c.numero_porcoes) as saldoKcal,
+	   SUM(a.carboidratos_por_porcao*c.numero_porcoes) as saldoCarb,
+	   SUM(a.proteinas_por_porcao*c.numero_porcoes) as saldoProt,
+	   SUM(a.gorduras_por_porcao*c.numero_porcoes) as saldoGorduras
+
+	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r
+WHERE u.id = 2
+AND to_char(Data,'dd/mm/yyyy') = $P{data}
+AND c.alimento_id = a.id
+AND r.id = c.dieta_id
+GROUP BY Nome, Data]]>
+	</queryString>
+	<field name="nome" class="java.lang.String"/>
+	<field name="data" class="java.sql.Date"/>
+	<field name="saldokcal" class="java.lang.Double"/>
+	<field name="saldocarb" class="java.lang.Double"/>
+	<field name="saldoprot" class="java.lang.Double"/>
+	<field name="saldogorduras" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="9266cc9c-cf5d-414b-ab1e-ab97ee9270e2"/>
+				<text><![CDATA[nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="44" height="20" uuid="6fa58cd1-d953-483b-9cd3-e0f5db2b08f8"/>
+				<text><![CDATA[data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="183" y="0" width="59" height="20" uuid="71eb20b8-5762-410e-b7ac-5ed1b375c17b"/>
+				<text><![CDATA[saldocarb]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="242" y="0" width="49" height="20" uuid="8059e286-28ee-4afa-a672-51fe33ee9094"/>
+				<text><![CDATA[saldoprot]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="291" y="0" width="39" height="20" uuid="c4fd7fb7-fd3b-4618-8722-d79beeca0157"/>
+				<text><![CDATA[saldogorduras]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="2" width="100" height="20" uuid="ebfe458d-e8d5-4699-85d6-170ad21e2b8d"/>
+				<text><![CDATA[saldokcal]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="594a7356-e28f-44be-860d-fae87bbd7945"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="44" height="20" uuid="4b6928b6-8a09-4219-bbef-d2cac9ccca05"/>
+				<textFieldExpression><![CDATA[$F{data}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="183" y="0" width="59" height="20" uuid="4325f685-d889-4302-805d-d80363e19cf5"/>
+				<textFieldExpression><![CDATA[$F{saldocarb}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="242" y="0" width="49" height="20" uuid="fd5acf8b-67f4-4bf8-9416-74f3bd150316"/>
+				<textFieldExpression><![CDATA[$F{saldoprot}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="291" y="0" width="39" height="20" uuid="b95debab-388e-4a39-8d86-ca1f0754353e"/>
+				<textFieldExpression><![CDATA[$F{saldogorduras}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="0" width="100" height="20" uuid="0422476b-aa43-4a5f-9536-e5e6f9ef52a5"/>
+				<textFieldExpression><![CDATA[$F{saldokcal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

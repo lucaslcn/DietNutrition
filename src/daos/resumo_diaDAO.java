@@ -56,6 +56,90 @@ public class resumo_diaDAO implements IDAO_T<resumo_dia> {
         return 0;
     }
 
+    public double updateSaldoCarb(int id_usuario) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT SUM(a.kcal_por_porcao*c.numero_porcoes) as saldoKcal,\n" +
+"                                SUM(a.carboidratos_por_porcao*c.numero_porcoes) as saldoCarb,\n" +
+"                                SUM(a.proteinas_por_porcao*c.numero_porcoes) as saldoProt,\n" +
+"                                SUM(a.gorduras_por_porcao*c.numero_porcoes) as saldoGorduras\n" +
+"	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r WHERE u.id = " + id_usuario +
+"	   AND r.data = current_date\n" +
+"	   AND c.alimento_id = a.id" + 
+"          AND r.id = c.dieta_id";
+
+            System.out.println("sql: " + sql);
+
+            resultadoQ = st.executeQuery(sql);
+
+            if (resultadoQ.next()) {
+                return resultadoQ.getDouble("saldoCarb");
+            }
+            return 0;
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public double updateSaldoProt(int id_usuario) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT SUM(a.kcal_por_porcao*c.numero_porcoes) as saldoKcal,\n" +
+"                                SUM(a.carboidratos_por_porcao*c.numero_porcoes) as saldoCarb,\n" +
+"                                SUM(a.proteinas_por_porcao*c.numero_porcoes) as saldoProt,\n" +
+"                                SUM(a.gorduras_por_porcao*c.numero_porcoes) as saldoGorduras\n" +
+"	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r WHERE u.id = " + id_usuario +
+"	   AND r.data = current_date\n" +
+"	   AND c.alimento_id = a.id" + 
+"          AND r.id = c.dieta_id";
+
+            System.out.println("sql: " + sql);
+
+            resultadoQ = st.executeQuery(sql);
+
+            if (resultadoQ.next()) {
+                return resultadoQ.getDouble("saldoProt");
+            }
+            return 0;
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public double updateSaldoGorduras(int id_usuario) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT SUM(a.kcal_por_porcao*c.numero_porcoes) as saldoKcal,\n" +
+"                                SUM(a.carboidratos_por_porcao*c.numero_porcoes) as saldoCarb,\n" +
+"                                SUM(a.proteinas_por_porcao*c.numero_porcoes) as saldoProt,\n" +
+"                                SUM(a.gorduras_por_porcao*c.numero_porcoes) as saldoGorduras\n" +
+"	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r WHERE u.id = " + id_usuario +
+"	   AND r.data = current_date\n" +
+"	   AND c.alimento_id = a.id" + 
+"          AND r.id = c.dieta_id";
+
+            System.out.println("sql: " + sql);
+
+            resultadoQ = st.executeQuery(sql);
+
+            if (resultadoQ.next()) {
+                return resultadoQ.getDouble("saldoGorduras");
+            }
+            return 0;
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
     public boolean verifyExistence(int id_usuario, LocalDate data) {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
