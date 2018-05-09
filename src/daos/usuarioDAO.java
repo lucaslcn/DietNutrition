@@ -5,8 +5,6 @@
  */
 package daos;
 
-import support.ConexaoBD;
-import support.IDAO_T;
 import entidades.Usuario;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -17,6 +15,8 @@ import javax.swing.table.TableColumn;
 import support.ConexaoBD;
 import support.Formatacao;
 import support.IDAO_T;
+import support.MD5;
+import static support.MD5.criptoSenha;
 
 /**
  *
@@ -26,6 +26,28 @@ public class usuarioDAO implements IDAO_T<Usuario> {
 
     ResultSet resultadoQ = null;
 
+    
+    
+    public String modifyAccount(int user_id, String username, String password)
+    {
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "UPDATE usuario "
+                    +"SET username = '" + username + "', "
+                    +"senha = '" + MD5.criptoSenha(password) + "' "
+                    +"WHERE usuario.id = " + user_id;
+            
+            System.out.println("sql: " + sql);
+            int resultado = st.executeUpdate(sql);
+            return null;
+        }
+        catch (Exception e) {
+            System.out.println("Erro ao criar/modificar acesso = " + e);
+            return e.toString();
+        }
+    }
+    
     @Override
     public String salvar(Usuario u) {
         try {

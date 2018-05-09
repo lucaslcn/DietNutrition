@@ -14,10 +14,10 @@ public class MD5 {
         System.out.println(criptoSenha(""));
         System.out.println(criptoSenha(" "));
         System.out.println(criptoSenha("  "));
-        System.out.println(criptoSenha("Anderson"));
-        System.out.println(criptoSenha("anderson"));
-        System.out.println(criptoSenha("andersoN"));
-        System.out.println(criptoSenha("Anderson"));
+        System.out.println(criptoSenha("Lucas"));
+        System.out.println(criptoSenha("LUCAS"));
+        System.out.println(criptoSenha("Lucas_Lucian"));
+        System.out.println(criptoSenha("LUCAS"));
         
     }
 
