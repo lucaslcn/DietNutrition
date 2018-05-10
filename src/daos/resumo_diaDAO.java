@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import support.ConexaoBD;
 import support.Formatacao;
+import static support.Formatacao.round;
 import support.IDAO_T;
 
 /**
@@ -28,25 +29,60 @@ public class resumo_diaDAO implements IDAO_T<resumo_dia> {
 
     ResultSet resultadoQ = null;
 
+    public double updateSaldoFinal(int id_usuario)
+    {
+        return (updateSaldoKcal(id_usuario) - updateSaldoAtividadeFisica(id_usuario));
+    }
+           
+    
     public double updateSaldoKcal(int id_usuario) {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "SELECT SUM(a.kcal_por_porcao*c.numero_porcoes) as saldoKcal,\n" +
+            String sql = "SELECT SUM(a.kcal_por_porcao*c.numero_porcoes) as saldoKcal,\n" +           
 "                                SUM(a.carboidratos_por_porcao*c.numero_porcoes) as saldoCarb,\n" +
 "                                SUM(a.proteinas_por_porcao*c.numero_porcoes) as saldoProt,\n" +
 "                                SUM(a.gorduras_por_porcao*c.numero_porcoes) as saldoGorduras\n" +
-"	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r WHERE u.id = " + id_usuario +
+"	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r WHERE r.usuario_id = " + id_usuario +
 "	   AND r.data = current_date\n" +
 "	   AND c.alimento_id = a.id" + 
-"          AND r.id = c.dieta_id";
+"          AND r.id = c.dieta_id" +
+"          AND r.usuario_id = u.id ";
+                    
 
             System.out.println("sql: " + sql);
 
             resultadoQ = st.executeQuery(sql);
 
             if (resultadoQ.next()) {
-                return resultadoQ.getDouble("saldokcal");
+                return resultadoQ.getDouble("saldoKcal");
+            }
+            return 0;
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public double updateSaldoAtividadeFisica(int id_usuario) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+String sql = "SELECT SUM((f.kcal_por_hora/60)*rf.duracao) as saldoAtividadeFisica "+
+	   "FROM usuario u, resumo_dia r, atividadefisica f, registro_atividadefisica rf, atividade_dieta ad  WHERE r.usuario_id = " + id_usuario + 
+	   " AND r.data = current_date "+ 
+          "AND f.idatividadefisica = rf.atividadefisica_idatividadefisica "+
+          "AND rf.id = ad.registro_atividadefisica_id "+
+          "AND ad.dieta_id = r.id " +
+"          AND r.usuario_id = u.id ";
+
+//            System.out.println("sql: " + sql);
+
+            resultadoQ = st.executeQuery(sql);
+
+            if (resultadoQ.next()) {
+                return round(resultadoQ.getDouble("saldoAtividadeFisica"),2);
             }
             return 0;
             
@@ -64,12 +100,13 @@ public class resumo_diaDAO implements IDAO_T<resumo_dia> {
 "                                SUM(a.carboidratos_por_porcao*c.numero_porcoes) as saldoCarb,\n" +
 "                                SUM(a.proteinas_por_porcao*c.numero_porcoes) as saldoProt,\n" +
 "                                SUM(a.gorduras_por_porcao*c.numero_porcoes) as saldoGorduras\n" +
-"	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r WHERE u.id = " + id_usuario +
+"	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r WHERE r.usuario_id = " + id_usuario +
 "	   AND r.data = current_date\n" +
 "	   AND c.alimento_id = a.id" + 
-"          AND r.id = c.dieta_id";
+"          AND r.id = c.dieta_id" +
+"          AND r.usuario_id = u.id ";
 
-            System.out.println("sql: " + sql);
+ //           System.out.println("sql: " + sql);
 
             resultadoQ = st.executeQuery(sql);
 
@@ -92,12 +129,13 @@ public class resumo_diaDAO implements IDAO_T<resumo_dia> {
 "                                SUM(a.carboidratos_por_porcao*c.numero_porcoes) as saldoCarb,\n" +
 "                                SUM(a.proteinas_por_porcao*c.numero_porcoes) as saldoProt,\n" +
 "                                SUM(a.gorduras_por_porcao*c.numero_porcoes) as saldoGorduras\n" +
-"	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r WHERE u.id = " + id_usuario +
+"	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r WHERE r.usuario_id = " + id_usuario +
 "	   AND r.data = current_date\n" +
 "	   AND c.alimento_id = a.id" + 
-"          AND r.id = c.dieta_id";
+"          AND r.id = c.dieta_id" +
+"          AND r.usuario_id = u.id ";
 
-            System.out.println("sql: " + sql);
+ //           System.out.println("sql: " + sql);
 
             resultadoQ = st.executeQuery(sql);
 
@@ -120,12 +158,14 @@ public class resumo_diaDAO implements IDAO_T<resumo_dia> {
 "                                SUM(a.carboidratos_por_porcao*c.numero_porcoes) as saldoCarb,\n" +
 "                                SUM(a.proteinas_por_porcao*c.numero_porcoes) as saldoProt,\n" +
 "                                SUM(a.gorduras_por_porcao*c.numero_porcoes) as saldoGorduras\n" +
-"	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r WHERE u.id = " + id_usuario +
+"	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r WHERE r.usuario_id = " + id_usuario +
 "	   AND r.data = current_date\n" +
 "	   AND c.alimento_id = a.id" + 
-"          AND r.id = c.dieta_id";
+"          AND r.id = c.dieta_id" +
+"          AND r.usuario_id = u.id ";
+                    
 
-            System.out.println("sql: " + sql);
+ //           System.out.println("sql: " + sql);
 
             resultadoQ = st.executeQuery(sql);
 
@@ -145,7 +185,8 @@ public class resumo_diaDAO implements IDAO_T<resumo_dia> {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "SELECT * FROM usuario u, resumo_dia r "
-                    + "WHERE u.id = " + id_usuario + " AND r.data = current_date";
+                    + "WHERE u.id = " + id_usuario + " AND r.data = current_date AND r.usuario_id = u.id";
+                    
 
             System.out.println("sql: " + sql);
 
@@ -214,7 +255,7 @@ public class resumo_diaDAO implements IDAO_T<resumo_dia> {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "SELECT r.id AS resumo_id, u.id AS user_id, r.saldokcal, r.data FROM usuario u, resumo_dia r WHERE u.id = " + id + " AND r.data = current_date";
+            String sql = "SELECT r.id AS resumo_id, u.id AS user_id, r.saldokcal, r.data FROM usuario u, resumo_dia r WHERE u.id = " + id + " AND r.data = current_date AND r.usuario_id = u.id";
 
             System.out.println("sql: " + sql);
 

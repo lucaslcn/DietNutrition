@@ -49,7 +49,7 @@ public class Consumo_alimentoDAO implements IDAO_T<consumo_alimento> {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             resumo_diaDAO resumo_diaDAO = new resumo_diaDAO();
             String sql = "UPDATE consumo_alimento SET numero_porcoes = numero_porcoes+" + o.getNumero_porcoes() +
-                         " WHERE consumo_alimento.dieta_id = " + resumo_id + "AND consumo_alimento.alimento_id = " + o.getAlimento_id();
+                         " WHERE consumo_alimento.dieta_id = " + resumo_id + " AND consumo_alimento.alimento_id = " + o.getAlimento_id();
             
              System.out.println("sql: " + sql);
              int resultado = st.executeUpdate(sql);

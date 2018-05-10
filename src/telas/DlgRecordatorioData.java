@@ -18,6 +18,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
 import support.ComboItens;
 import support.ConexaoBD;
+import support.Formatacao;
 
 /**
  *
@@ -58,6 +59,7 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAutoRequestFocus(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("RECORDATÓRIO POR DATA");
@@ -166,9 +168,11 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
         {
         selected = (ComboItens) jComboBox2.getSelectedItem();
         System.out.println(selected.getDescricao());
-        String date = selected.getDescricao().toString();
+        System.out.println(selected.getCodigo());
+        String date = selected.getDescricao();
         System.out.println(date);
         int user = selected.getCodigo();
+        this.dispose();
         
         
         

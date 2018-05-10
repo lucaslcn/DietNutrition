@@ -16,10 +16,11 @@
 	   SUM(a.gorduras_por_porcao*c.numero_porcoes) as saldoGorduras
 
 	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r
-WHERE u.id = 2
+WHERE u.id = $P{user_id}
 AND to_char(Data,'dd/mm/yyyy') = $P{data}
 AND c.alimento_id = a.id
 AND r.id = c.dieta_id
+AND r.usuario_id = u.id
 GROUP BY Nome, Data]]>
 	</queryString>
 	<field name="nome" class="java.lang.String"/>
@@ -60,7 +61,7 @@ GROUP BY Nome, Data]]>
 				<text><![CDATA[saldogorduras]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="330" y="2" width="100" height="20" uuid="ebfe458d-e8d5-4699-85d6-170ad21e2b8d"/>
+				<reportElement x="352" y="0" width="100" height="20" uuid="ebfe458d-e8d5-4699-85d6-170ad21e2b8d"/>
 				<text><![CDATA[saldokcal]]></text>
 			</staticText>
 		</band>
@@ -88,7 +89,7 @@ GROUP BY Nome, Data]]>
 				<textFieldExpression><![CDATA[$F{saldogorduras}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="330" y="0" width="100" height="20" uuid="0422476b-aa43-4a5f-9536-e5e6f9ef52a5"/>
+				<reportElement x="352" y="0" width="100" height="20" uuid="0422476b-aa43-4a5f-9536-e5e6f9ef52a5"/>
 				<textFieldExpression><![CDATA[$F{saldokcal}]]></textFieldExpression>
 			</textField>
 		</band>

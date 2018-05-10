@@ -84,7 +84,7 @@ public class usuarioDAO implements IDAO_T<Usuario> {
                     + "email = '" + u.getEmail() + "',"
                     + "altura_cm = '" + u.getAltura_cm() + "',"
                     + "sexo = '" + u.getSexo() + "', "
-                    + "data_nascimento = '" + u.getData_nascimento() + "'"
+                    + "data_nascimento = '" + u.getData_nascimento() + "' "
                     + "WHERE id = " + u.getId();
 
             System.out.println("sql: " + sql);
@@ -202,7 +202,6 @@ public class usuarioDAO implements IDAO_T<Usuario> {
                 dadosTabela[lin][3] = resultadoQ.getString("altura_cm");
                 dadosTabela[lin][4] = resultadoQ.getString("sexo");
                 dadosTabela[lin][5] = Formatacao.ajustaDataDMA(resultadoQ.getString("data_nascimento"));
-                dadosTabela[lin][6] = resultadoQ.getBoolean("delete");
 
                 if (resultadoQ.getBoolean("delete"))
                 {

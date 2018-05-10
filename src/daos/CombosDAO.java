@@ -29,7 +29,7 @@ public class CombosDAO {
         
          try {
             resultado = new ConexaoBD().getConnection().createStatement().executeQuery(
-                    "SELECT r.id,r.data from resumo_dia r, usuario u WHERE r.usuario_id = "+ id_usuario+""
+                    "SELECT u.id,r.data from resumo_dia r, usuario u WHERE r.usuario_id = "+ id_usuario+""
                             + " AND r.usuario_id = u.id");
 
             if (resultado.isBeforeFirst()) {

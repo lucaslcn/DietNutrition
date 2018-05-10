@@ -6,11 +6,11 @@
 package support;
 
 import com.sun.glass.events.KeyEvent;
-import static com.sun.javafx.tk.Toolkit.getToolkit;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.*;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Scanner;
 import javax.swing.*;
 import javax.swing.text.*;
 
@@ -33,6 +33,14 @@ public class Formatacao {
         }
         return campoFormatado;
     }
+    
+    public static double round(double value, int places) {
+    if (places < 0) throw new IllegalArgumentException();
+
+    BigDecimal bd = new BigDecimal(value);
+    bd = bd.setScale(places, RoundingMode.HALF_UP);
+    return bd.doubleValue();
+}
 
     public static void formatarDecimal(JTextField campo) {
         campo.setText(df.format(Double.parseDouble(campo.getText())));
