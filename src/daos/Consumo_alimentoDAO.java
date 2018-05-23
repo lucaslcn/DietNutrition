@@ -1,5 +1,4 @@
 package daos;
-
 import entidades.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +13,7 @@ import support.IDAO_T;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 /**
  *
  * @author Lucas
@@ -21,18 +21,21 @@ import support.IDAO_T;
 public class Consumo_alimentoDAO implements IDAO_T<consumo_alimento> {
 
     ResultSet ResultadoQ = null;
-
+    
+    
     public String salvar(consumo_alimento o, int resumo_id) throws SQLException {
-        try {
-
+         try {
+            
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             resumo_diaDAO resumo_diaDAO = new resumo_diaDAO();
-
+            
+            
             String sql = "INSERT INTO consumo_alimento VALUES ("
                     + "'" + resumo_id + "', "
-                    + "'" + o.getAlimento_id() + "', "
+                    + "'" + o.getAlimento_id()+ "', "
                     + "'" + o.getNumero_porcoes() + "',"
                     + "true)";
+                    
 
             System.out.println("sql: " + sql);
 
@@ -42,27 +45,15 @@ public class Consumo_alimentoDAO implements IDAO_T<consumo_alimento> {
 
         } catch (Exception e) {
             System.out.println(e);
+            JOptionPane.showMessageDialog(null,"O alimento já havia sido consumido no dia de hoje! Então, o número de porções será atualizado ");
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             resumo_diaDAO resumo_diaDAO = new resumo_diaDAO();
-            String sql = "UPDATE consumo_alimento SET numero_porcoes = numero_porcoes+" + o.getNumero_porcoes()
-                    + " WHERE consumo_alimento.dieta_id = " + resumo_id + " AND consumo_alimento.alimento_id = " + o.getAlimento_id();
-
+            String sql = "UPDATE consumo_alimento SET numero_porcoes = numero_porcoes+" + o.getNumero_porcoes() +
+                         " WHERE consumo_alimento.dieta_id = " + resumo_id + " AND consumo_alimento.alimento_id = " + o.getAlimento_id();
             
-            System.out.println("sql: " + sql);
-            int resultado = st.executeUpdate(sql);
+             System.out.println("sql: " + sql);
+             int resultado = st.executeUpdate(sql);
             
-            String sql2 = "SELECT c.numero_porcoes AS numero_porcoes FROM consumo_alimento c, resumo_dia r, alimento a "
-                    + " WHERE c.dieta_id = " + resumo_id + " AND c.alimento_id = " + o.getAlimento_id();
-
-            ResultadoQ = st.executeQuery(sql2);
-            float porcoes = o.getNumero_porcoes();
-            if (ResultadoQ.next()) {
-                porcoes = ResultadoQ.getFloat("numero_porcoes");
-            }
-
-            JOptionPane.showMessageDialog(null, "O alimento já havia sido registrado no dia de hoje! Então, o número de porções será atualizado. Número novo de porções:  " + porcoes);
-
-
             return e.toString();
         }
     }
@@ -96,5 +87,5 @@ public class Consumo_alimentoDAO implements IDAO_T<consumo_alimento> {
     public String salvar(consumo_alimento o) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
 }
