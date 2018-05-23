@@ -31,7 +31,7 @@ public class resumo_diaDAO implements IDAO_T<resumo_dia> {
 
     public double updateSaldoFinal(int id_usuario)
     {
-        return (updateSaldoKcal(id_usuario) - updateSaldoAtividadeFisica(id_usuario));
+        return round(((updateSaldoKcal(id_usuario) - updateSaldoAtividadeFisica(id_usuario))),2);
     }
            
     
@@ -44,9 +44,9 @@ public class resumo_diaDAO implements IDAO_T<resumo_dia> {
 "                                SUM(a.proteinas_por_porcao*c.numero_porcoes) as saldoProt,\n" +
 "                                SUM(a.gorduras_por_porcao*c.numero_porcoes) as saldoGorduras\n" +
 "	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r WHERE r.usuario_id = " + id_usuario +
-"	   AND r.data = current_date\n" +
-"	   AND c.alimento_id = a.id" + 
-"          AND r.id = c.dieta_id" +
+"	   AND r.data = current_date " +
+"	   AND c.alimento_id = a.id " + 
+"          AND r.id = c.dieta_id " +
 "          AND r.usuario_id = u.id ";
                     
 
@@ -101,8 +101,8 @@ String sql = "SELECT SUM((f.kcal_por_hora/60)*rf.duracao) as saldoAtividadeFisic
 "                                SUM(a.proteinas_por_porcao*c.numero_porcoes) as saldoProt,\n" +
 "                                SUM(a.gorduras_por_porcao*c.numero_porcoes) as saldoGorduras\n" +
 "	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r WHERE r.usuario_id = " + id_usuario +
-"	   AND r.data = current_date\n" +
-"	   AND c.alimento_id = a.id" + 
+"	   AND r.data = current_date " +
+"	   AND c.alimento_id = a.id " + 
 "          AND r.id = c.dieta_id" +
 "          AND r.usuario_id = u.id ";
 
@@ -150,6 +150,31 @@ String sql = "SELECT SUM((f.kcal_por_hora/60)*rf.duracao) as saldoAtividadeFisic
         return 0;
     }
     
+    public String zerarNumeroPorcoes(int id_usuario, int id_alimento, int resumo_id)
+    {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "UPDATE consumo_alimento SET numero_porcoes = 0 WHERE alimento_id = "
+                    + "(SELECT alimento_id FROM alimento a, usuario u, resumo_dia r, consumo_alimento c WHERE u.id = "+ id_usuario+
+"          AND a.id = "+id_alimento+
+"	   AND r.id = "+resumo_id+
+"	   AND r.data = current_date "+
+"	   AND c.alimento_id = a.id "+
+"          AND r.id = c.dieta_id "+
+"	   AND r.usuario_id = u.id)";
+            
+         System.out.println("sql: " + sql);
+            int resultado = st.executeUpdate(sql);
+            return null;
+        }
+        catch (Exception e) {
+            System.out.println("Erro ao zerar porcoes = " + e);
+            return e.toString();
+        }
+    }
+        
+    
     public double updateSaldoGorduras(int id_usuario) {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
@@ -159,10 +184,11 @@ String sql = "SELECT SUM((f.kcal_por_hora/60)*rf.duracao) as saldoAtividadeFisic
 "                                SUM(a.proteinas_por_porcao*c.numero_porcoes) as saldoProt,\n" +
 "                                SUM(a.gorduras_por_porcao*c.numero_porcoes) as saldoGorduras\n" +
 "	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r WHERE r.usuario_id = " + id_usuario +
-"	   AND r.data = current_date\n" +
+"	   AND r.data = current_date" +
 "	   AND c.alimento_id = a.id" + 
 "          AND r.id = c.dieta_id" +
 "          AND r.usuario_id = u.id ";
+            
                     
 
  //           System.out.println("sql: " + sql);
