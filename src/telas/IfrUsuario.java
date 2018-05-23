@@ -355,7 +355,7 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Registro salvo com sucesso!");
             tfdNome.setText("");
             tfdEmail.setText("");
-            tfdAltura.setText("");
+            tfdAltura.setText("0");
             tfdDataNascimento.setText("");
             buttonGroup2.clearSelection();
             tfdNome.requestFocus();

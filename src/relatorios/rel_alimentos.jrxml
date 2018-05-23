@@ -32,7 +32,7 @@
 				<text><![CDATA[id]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="44" y="2" width="115" height="20" uuid="39169421-6d89-4300-bb11-d1077ec36ecd"/>
+				<reportElement x="32" y="2" width="127" height="20" uuid="39169421-6d89-4300-bb11-d1077ec36ecd"/>
 				<text><![CDATA[nome_alimento]]></text>
 			</staticText>
 			<staticText>
@@ -60,7 +60,7 @@
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="44" y="12" width="115" height="20" uuid="de3ab2c3-5271-44c7-bead-e11dd7757862"/>
+				<reportElement x="32" y="12" width="127" height="20" uuid="de3ab2c3-5271-44c7-bead-e11dd7757862"/>
 				<textFieldExpression><![CDATA[$F{nome_alimento}]]></textFieldExpression>
 			</textField>
 			<textField>

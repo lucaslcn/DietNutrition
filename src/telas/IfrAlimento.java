@@ -342,10 +342,10 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
         String retorno = null;
 
         if (tfdNome.getText().trim().isEmpty() == false
-                || isNumeric(tfdCalorias.getText())
-                || isNumeric(tfdProteinas.getText())
-                || isNumeric(tfdGorduras.getText())
-                || isNumeric(tfdCalorias.getText())) {
+                && isNumeric(tfdCalorias.getText())
+                && isNumeric(tfdProteinas.getText())
+                && isNumeric(tfdGorduras.getText())
+                && isNumeric(tfdCalorias.getText())) {
 
             if (codigo == 0) {
                 retorno = alimentoDAO.salvar(alimento);
@@ -354,7 +354,11 @@ public class IfrAlimento extends javax.swing.JInternalFrame {
                 retorno = alimentoDAO.atualizar(alimento);
             }
         }
-        if (retorno == null && (tfdNome.getText().trim().isEmpty() == false)) {
+        if (retorno == null && (tfdNome.getText().trim().isEmpty() == false
+                && isNumeric(tfdCalorias.getText())
+                && isNumeric(tfdProteinas.getText())
+                && isNumeric(tfdGorduras.getText())
+                && isNumeric(tfdCalorias.getText()))) {
             JOptionPane.showMessageDialog(null, "Registro salvo com sucesso!");
             tfdNome.setText("");
             tfdCarboidrato.setText("0");

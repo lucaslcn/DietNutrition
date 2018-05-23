@@ -9,11 +9,15 @@ import java.time.LocalDate;
 import support.Formatacao;
 import support.ComboItens;
 import daos.CombosDAO;
+import daos.Consumo_alimentoDAO;
 import daos.resumo_diaDAO;
 import daos.usuarioDAO;
 import entidades.Usuario;
 import entidades.consumo_alimento;
 import entidades.resumo_dia;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -49,7 +53,10 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
         resumo_diaDAO.salvar(resumo_dia);
         }
         
+        System.out.println("this.id antes de consultar o id:" + this.user_id);
         resumo_dia resumo = resumo_diaDAO.consultarId(id);
+
+        System.out.println("resumo_dia_consultarId: " + resumo.getId());
         this.resumo_id = resumo.getId();
         
         
@@ -62,6 +69,13 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
         combosDAO_atividadeFisica.popularCombo("atividadeFisica", jComboBox2);
         ComboItens itens_atividadefisica = new ComboItens();
         combosDAO_atividadeFisica.definirItemCombo(jComboBox2, itens_atividadefisica);
+        
+        tfdSaldoKcal.setText(String.valueOf(resumo_diaDAO.updateSaldoKcal(user_id)));
+        tfdSaldoCarb.setText(String.valueOf(resumo_diaDAO.updateSaldoCarb(user_id)));
+        tfdSaldoProt.setText(String.valueOf(resumo_diaDAO.updateSaldoProt(user_id)));
+        tfdSaldoGorduras.setText(String.valueOf(resumo_diaDAO.updateSaldoGorduras(user_id)));
+        tfdSaldoFinal.setText(String.valueOf(resumo_diaDAO.updateSaldoFinal(user_id)));
+        tfdAtividadeFisica.setText(String.valueOf(resumo_diaDAO.updateSaldoAtividadeFisica(user_id)));
     }
 
     /**
@@ -88,12 +102,14 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        tfdSaldoCarb = new javax.swing.JTextField();
+        tfdSaldoGorduras = new javax.swing.JTextField();
+        tfdSaldoFinal = new javax.swing.JTextField();
+        tfdSaldoProt = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        tfdAtividadeFisica = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        tfdSaldoKcal = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -128,7 +144,7 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
 
         BtnRegistrarAtividade.setText("Registrar");
 
-        comboPorcoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Porções", "0,5", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        comboPorcoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Porções", "0.5", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
         comboPorcoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboPorcoesActionPerformed(evt);
@@ -150,8 +166,23 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Total de gorduras (g):");
 
+        tfdSaldoFinal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfdSaldoFinalActionPerformed(evt);
+            }
+        });
+
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Gasto calórico com atividades físicas (kcal):");
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel11.setText("Quantidade de calorias ingeridas através de alimentos (kcal):");
+
+        tfdSaldoKcal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfdSaldoKcalActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -160,31 +191,37 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(92, 92, 92)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(57, 57, 57)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(tfdSaldoProt, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel6)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(tfdSaldoFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(52, 52, 52)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel9)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(18, 18, 18)
+                                                .addComponent(tfdSaldoGorduras, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel8)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addComponent(tfdSaldoCarb, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(27, 27, 27))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(17, 17, 17)
                                         .addComponent(comboPorcoes, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -198,16 +235,15 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
                                 .addGap(45, 45, 45)
                                 .addComponent(BtnRegistrarAtividade))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(120, 120, 120)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addComponent(jLabel4)))
-                .addGap(0, 91, Short.MAX_VALUE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel10))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tfdAtividadeFisica, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tfdSaldoKcal, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addGap(0, 79, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,19 +252,23 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdSaldoCarb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfdSaldoFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdSaldoGorduras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfdSaldoProt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(74, 74, 74)
+                    .addComponent(tfdAtividadeFisica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(tfdSaldoKcal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(46, 46, 46)
                 .addComponent(jLabel1)
                 .addGap(23, 23, 23)
                 .addComponent(jLabel3)
@@ -244,7 +284,7 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboPorcoes1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnRegistrarAtividade))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Registro", jPanel1);
@@ -351,14 +391,51 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
 
     private void BtnRegistrarAlimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarAlimentoActionPerformed
         
+        ComboItens alimentoSelecionado = new ComboItens();
+        alimentoSelecionado = (ComboItens) jComboBox1.getSelectedItem();
+        System.out.println("\nid: " + alimentoSelecionado.getCodigo());
+        
+        if (jComboBox1.getSelectedIndex() != 0 && comboPorcoes.getSelectedIndex() != 0)
+        {
+        float porcaoSelecionada = Float.parseFloat((String)comboPorcoes.getSelectedItem());
+        System.out.println("numero de porcoes: " + porcaoSelecionada);
         consumo_alimento consumo_alimento = new consumo_alimento();
-        consumo_alimento.setDieta_id();
+        consumo_alimento.setDieta_id(resumo_id);
+        consumo_alimento.setAlimento_id(alimentoSelecionado.getCodigo());
+        consumo_alimento.setNumero_porcoes(porcaoSelecionada);
+        
+        Consumo_alimentoDAO consumo_alimentoDAO = new Consumo_alimentoDAO();
+            try {
+                consumo_alimentoDAO.salvar(consumo_alimento, resumo_id);
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(IfrResumoDia.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        resumo_diaDAO resumo_diaDAO = new resumo_diaDAO();
+        tfdSaldoKcal.setText(String.valueOf(resumo_diaDAO.updateSaldoKcal(user_id)));
+        tfdSaldoCarb.setText(String.valueOf(resumo_diaDAO.updateSaldoCarb(user_id)));
+        tfdSaldoProt.setText(String.valueOf(resumo_diaDAO.updateSaldoProt(user_id)));
+        tfdSaldoGorduras.setText(String.valueOf(resumo_diaDAO.updateSaldoGorduras(user_id)));
+        tfdAtividadeFisica.setText(String.valueOf(resumo_diaDAO.updateSaldoAtividadeFisica(user_id)));
+        tfdSaldoFinal.setText(String.valueOf(resumo_diaDAO.updateSaldoFinal(user_id)));
+        
+        }
+        
         
     }//GEN-LAST:event_BtnRegistrarAlimentoActionPerformed
 
     private void tfdNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdNomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfdNomeActionPerformed
+
+    private void tfdSaldoFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdSaldoFinalActionPerformed
+        
+    }//GEN-LAST:event_tfdSaldoFinalActionPerformed
+
+    private void tfdSaldoKcalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdSaldoKcalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfdSaldoKcalActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -370,6 +447,7 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -383,12 +461,13 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField tfdAtividadeFisica;
     private javax.swing.JTextField tfdData;
     private javax.swing.JTextField tfdNome;
+    private javax.swing.JTextField tfdSaldoCarb;
+    private javax.swing.JTextField tfdSaldoFinal;
+    private javax.swing.JTextField tfdSaldoGorduras;
+    private javax.swing.JTextField tfdSaldoKcal;
+    private javax.swing.JTextField tfdSaldoProt;
     // End of variables declaration//GEN-END:variables
 }

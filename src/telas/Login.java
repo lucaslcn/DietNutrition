@@ -6,12 +6,10 @@
 package telas;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import support.ConexaoBD;
+import support.MD5;
 
 /**
  *
@@ -155,8 +153,8 @@ public class Login extends javax.swing.JFrame {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String check = ("SELECT id FROM usuario WHERE username = '" + tfdLogin.getText().trim() + "'"
-                           +" AND senha = '" + tfdSenha.getText()+ "';");
+            String check = ("SELECT id FROM usuario WHERE username = '" + tfdLogin.getText() + "'"
+                           +" AND senha = '" + MD5.criptoSenha(tfdLogin.getText())+ "';");
 
             System.out.println("sql_check = " + check);
 
@@ -172,6 +170,7 @@ public class Login extends javax.swing.JFrame {
                 System.out.println("false");
                 JOptionPane.showMessageDialog(null, "Usuário e/ou senha incorretos, tente novamente");
             }
+            
         } catch (Exception e) {
             System.out.println("Erro salvar usuario = " + e);
             System.out.println (e.toString());
