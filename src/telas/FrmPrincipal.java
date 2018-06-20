@@ -101,6 +101,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
 
         jMenuItem4.setText("Atividade Física");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem4);
 
         jMenuItem10.setText("Usuário e senha");
@@ -201,17 +206,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
         IfrUsuario ifrUsuario = new IfrUsuario();
         jDesktopPane1.add(ifrUsuario);
         ifrUsuario.setVisible(true);
+        ifrUsuario.setLocation((this.getWidth()/2)-(ifrUsuario.getWidth()/2), (this.getHeight()/2)-(ifrUsuario.getHeight()/2));
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         IfrAlimento ifrAlimento = new IfrAlimento();
         jDesktopPane1.add(ifrAlimento);
         ifrAlimento.setVisible(true);
+        ifrAlimento.setLocation((this.getWidth()/2)-(ifrAlimento.getWidth()/2), (this.getHeight()/2)-(ifrAlimento.getHeight()/2));
+
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         IfrResumoDiaAccess ifrRecordatorioLogin = new IfrResumoDiaAccess(jDesktopPane1);
         jDesktopPane1.add(ifrRecordatorioLogin);
+        ifrRecordatorioLogin.setLocation((this.getWidth()/2)-(ifrRecordatorioLogin.getWidth()/2), (this.getHeight()/2)-(ifrRecordatorioLogin.getHeight()/2));
         ifrRecordatorioLogin.setVisible(true);
                 
     }//GEN-LAST:event_jMenuItem5ActionPerformed
@@ -280,7 +289,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         DlgAlimentosKcal dlgAlimentosKcal = new DlgAlimentosKcal(this,true);
         dlgAlimentosKcal.setLocationRelativeTo(this);
-        dlgAlimentosKcal.setVisible(true);        
+        dlgAlimentosKcal.setVisible(true);
+        
         
         
     }//GEN-LAST:event_jMenuItem8ActionPerformed
@@ -296,6 +306,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
         dlgRegister.setLocationRelativeTo(this);
         dlgRegister.setVisible(true);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        IfrAtividadeFisica ifrAtividadeFisica = new IfrAtividadeFisica();
+        jDesktopPane1.add(ifrAtividadeFisica);
+        ifrAtividadeFisica.setVisible(true);
+        ifrAtividadeFisica.setLocation((this.getWidth()/2)-(ifrAtividadeFisica.getWidth()/2), (this.getHeight()/2)-(ifrAtividadeFisica.getHeight()/2));
+
+        
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments

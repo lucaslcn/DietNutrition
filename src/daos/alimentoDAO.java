@@ -168,7 +168,7 @@ public class alimentoDAO implements IDAO_T<alimento> {
         // efetua consulta na tabela
         try {
             resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT * FROM alimento WHERE NOME_ALIMENTO ILIKE '%" + criterio + "%'");
+                    + "SELECT * FROM alimento WHERE NOME_ALIMENTO ILIKE '%" + criterio + "%' ORDER BY DELETE DESC, nome_alimento ASC");
 
             while (resultadoQ.next()) {
 

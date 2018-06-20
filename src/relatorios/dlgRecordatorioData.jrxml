@@ -2,11 +2,14 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dlgRecordatorioData" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e9357f62-b7a0-4bee-8090-e3c8a1aea7c9">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="42"/>
+	<property name="ireport.y" value="14"/>
 	<parameter name="user_id" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="data" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="data2" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -17,7 +20,8 @@
 
 	   FROM alimento a, usuario u, consumo_alimento c, resumo_dia r
 WHERE u.id = $P{user_id}
-AND to_char(Data,'dd/mm/yyyy') = $P{data}
+AND to_char(Data,'dd/mm/yyyy') >= $P{data}
+AND to_char(Data,'dd/mm/yyyy') <= $P{data2}
 AND c.alimento_id = a.id
 AND r.id = c.dieta_id
 AND r.usuario_id = u.id
@@ -42,32 +46,32 @@ GROUP BY Nome, Data]]>
 		<band height="61" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="100" height="20" uuid="9266cc9c-cf5d-414b-ab1e-ab97ee9270e2"/>
-				<text><![CDATA[nome]]></text>
+				<text><![CDATA[Nome]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="100" y="0" width="44" height="20" uuid="6fa58cd1-d953-483b-9cd3-e0f5db2b08f8"/>
-				<text><![CDATA[data]]></text>
+				<text><![CDATA[Data]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="183" y="0" width="59" height="20" uuid="71eb20b8-5762-410e-b7ac-5ed1b375c17b"/>
-				<text><![CDATA[saldocarb]]></text>
+				<reportElement x="167" y="0" width="59" height="20" uuid="71eb20b8-5762-410e-b7ac-5ed1b375c17b"/>
+				<text><![CDATA[Carboidratos]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="242" y="0" width="49" height="20" uuid="8059e286-28ee-4afa-a672-51fe33ee9094"/>
-				<text><![CDATA[saldoprot]]></text>
+				<text><![CDATA[Proteínas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="291" y="0" width="39" height="20" uuid="c4fd7fb7-fd3b-4618-8722-d79beeca0157"/>
-				<text><![CDATA[saldogorduras]]></text>
+				<reportElement x="302" y="0" width="39" height="20" uuid="c4fd7fb7-fd3b-4618-8722-d79beeca0157"/>
+				<text><![CDATA[Gorduras]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="352" y="0" width="100" height="20" uuid="ebfe458d-e8d5-4699-85d6-170ad21e2b8d"/>
-				<text><![CDATA[saldokcal]]></text>
+				<text><![CDATA[Saldo calórico]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="28" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="100" height="20" uuid="594a7356-e28f-44be-860d-fae87bbd7945"/>
 				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
@@ -77,7 +81,7 @@ GROUP BY Nome, Data]]>
 				<textFieldExpression><![CDATA[$F{data}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="183" y="0" width="59" height="20" uuid="4325f685-d889-4302-805d-d80363e19cf5"/>
+				<reportElement x="167" y="0" width="59" height="20" uuid="4325f685-d889-4302-805d-d80363e19cf5"/>
 				<textFieldExpression><![CDATA[$F{saldocarb}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -85,7 +89,7 @@ GROUP BY Nome, Data]]>
 				<textFieldExpression><![CDATA[$F{saldoprot}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="291" y="0" width="39" height="20" uuid="b95debab-388e-4a39-8d86-ca1f0754353e"/>
+				<reportElement x="302" y="0" width="39" height="20" uuid="b95debab-388e-4a39-8d86-ca1f0754353e"/>
 				<textFieldExpression><![CDATA[$F{saldogorduras}]]></textFieldExpression>
 			</textField>
 			<textField>

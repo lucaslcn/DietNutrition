@@ -43,7 +43,6 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
 
         buttonGroup2 = new javax.swing.ButtonGroup();
         btnFechar = new javax.swing.JButton();
-        btnSalvar = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -59,26 +58,20 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
         tfdDataNascimento = new javax.swing.JFormattedTextField();
         tfdAltura = new javax.swing.JTextField();
         validacao = new javax.swing.JLabel();
+        btnSalvar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblUsuario = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         tfdCriterio = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
-        btnEditar = new javax.swing.JButton();
         tfdExcluir = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
 
         btnFechar.setText("Fechar");
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFecharActionPerformed(evt);
-            }
-        });
-
-        btnSalvar.setText("Salvar");
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarActionPerformed(evt);
             }
         });
 
@@ -131,6 +124,13 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
             }
         });
 
+        btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -163,7 +163,8 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jRadioButton2)
-                            .addComponent(validacao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(validacao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(184, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -181,7 +182,7 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
                     .addComponent(tfdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(validacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(validacao, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5)
                         .addComponent(tfdAltura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -194,7 +195,9 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(tfdDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(116, 116, 116))
+                .addGap(18, 18, 18)
+                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53))
         );
 
         jTabbedPane1.addTab("Cadastro", jPanel1);
@@ -235,6 +238,20 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
             }
         });
 
+        tfdExcluir.setText("Ativar / Desativar");
+        tfdExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfdExcluirActionPerformed(evt);
+            }
+        });
+
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -248,7 +265,12 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tfdCriterio, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnPesquisar)))
+                        .addComponent(btnPesquisar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnEditar)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfdExcluir)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -260,43 +282,27 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
                     .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfdExcluir)
+                    .addComponent(btnEditar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Listagem", jPanel2);
-
-        btnEditar.setText("Editar");
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
-            }
-        });
-
-        tfdExcluir.setText("Ativar / Desativar");
-        tfdExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfdExcluirActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnEditar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSalvar)
-                        .addGap(28, 28, 28)
-                        .addComponent(tfdExcluir)
-                        .addGap(26, 26, 26)
-                        .addComponent(btnFechar))
-                    .addComponent(jTabbedPane1))
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnFechar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -304,12 +310,8 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnFechar)
-                    .addComponent(btnSalvar)
-                    .addComponent(btnEditar)
-                    .addComponent(tfdExcluir))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnFechar)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
@@ -415,10 +417,10 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
 
     private void tfdExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdExcluirActionPerformed
 
-        String valor = String.valueOf(tblUsuario.getValueAt(tblUsuario.getSelectedRow(), 0));
-        Usuario u = new usuarioDAO().consultarId(Integer.parseInt(valor));
-        codigo = u.getId();
-        String retorno = new usuarioDAO().excluir(codigo);
+        int valor = /*String.valueOf*/(int)tblUsuario.getValueAt(tblUsuario.getSelectedRow(), 0);
+        //Usuario u = new usuarioDAO().consultarId(valor);
+        //codigo = u.getId();
+        String retorno = new usuarioDAO().excluir(valor);
 
         if (retorno == null) {
             JOptionPane.showMessageDialog(null, "Alterado com sucesso");

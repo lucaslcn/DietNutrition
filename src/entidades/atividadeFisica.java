@@ -14,6 +14,15 @@ public class atividadeFisica {
     private int id;
     private String nome_atividade;
     private double kcal_por_hora;
+    private boolean delete;
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
+    }
 
     public int getId() {
         return id;

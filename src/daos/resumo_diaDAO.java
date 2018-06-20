@@ -50,7 +50,7 @@ public class resumo_diaDAO implements IDAO_T<resumo_dia> {
 "          AND r.usuario_id = u.id ";
                     
 
-            System.out.println("sql: " + sql);
+          //  System.out.println("sql: " + sql);
 
             resultadoQ = st.executeQuery(sql);
 
@@ -70,11 +70,10 @@ public class resumo_diaDAO implements IDAO_T<resumo_dia> {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
 String sql = "SELECT SUM((f.kcal_por_hora/60)*rf.duracao) as saldoAtividadeFisica "+
-	   "FROM usuario u, resumo_dia r, atividadefisica f, registro_atividadefisica rf, atividade_dieta ad  WHERE r.usuario_id = " + id_usuario + 
+	   "FROM usuario u, resumo_dia r, atividadefisica f, registro_atividadefisica rf WHERE r.usuario_id = " + id_usuario + 
 	   " AND r.data = current_date "+ 
           "AND f.idatividadefisica = rf.atividadefisica_idatividadefisica "+
-          "AND rf.id = ad.registro_atividadefisica_id "+
-          "AND ad.dieta_id = r.id " +
+          "AND rf.dieta_id = r.id " +
 "          AND r.usuario_id = u.id ";
 
 //            System.out.println("sql: " + sql);
@@ -111,7 +110,7 @@ String sql = "SELECT SUM((f.kcal_por_hora/60)*rf.duracao) as saldoAtividadeFisic
             resultadoQ = st.executeQuery(sql);
 
             if (resultadoQ.next()) {
-                return resultadoQ.getDouble("saldoCarb");
+                return round(resultadoQ.getDouble("saldoCarb"),2);
             }
             return 0;
             
@@ -140,7 +139,7 @@ String sql = "SELECT SUM((f.kcal_por_hora/60)*rf.duracao) as saldoAtividadeFisic
             resultadoQ = st.executeQuery(sql);
 
             if (resultadoQ.next()) {
-                return resultadoQ.getDouble("saldoProt");
+                return round(resultadoQ.getDouble("saldoProt"),2);
             }
             return 0;
             
@@ -173,7 +172,30 @@ String sql = "SELECT SUM((f.kcal_por_hora/60)*rf.duracao) as saldoAtividadeFisic
             return e.toString();
         }
     }
-        
+
+        public String zerarAtividadeFisica(int id_usuario, int idatividadefisica, int resumo_id)
+    {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "UPDATE registro_atividadefisica SET duracao = 0 WHERE atividadefisica_idatividadefisica = "
+                    + "(SELECT atividadefisica_idatividadefisica FROM atividadefisica af, usuario u, resumo_dia r, registro_atividadefisica raf WHERE u.id = "+ id_usuario+
+"          AND raf.atividadefisica_idatividadefisica = "+idatividadefisica+
+"	   AND r.id = "+resumo_id+
+"	   AND r.data = current_date "+
+"	   AND raf.atividadefisica_idatividadefisica = af.idatividadefisica "+
+"          AND r.id = raf.dieta_id "+
+"	   AND r.usuario_id = u.id)";
+            
+         System.out.println("sql: " + sql);
+            int resultado = st.executeUpdate(sql);
+            return null;
+        }
+        catch (Exception e) {
+            System.out.println("Erro ao zerar duração = " + e);
+            return e.toString();
+        }
+    }
     
     public double updateSaldoGorduras(int id_usuario) {
         try {
@@ -196,7 +218,7 @@ String sql = "SELECT SUM((f.kcal_por_hora/60)*rf.duracao) as saldoAtividadeFisic
             resultadoQ = st.executeQuery(sql);
 
             if (resultadoQ.next()) {
-                return resultadoQ.getDouble("saldoGorduras");
+                return round(resultadoQ.getDouble("saldoGorduras"),2);
             }
             return 0;
             
@@ -303,5 +325,203 @@ String sql = "SELECT SUM((f.kcal_por_hora/60)*rf.duracao) as saldoAtividadeFisic
         return null;
 
     }
+    
+    public void popularTabelaAlimentos(JTable tabela, int user_id) {
+        // dados da tabela
+        Object[][] dadosTabela = null;
+        // cabecalho da tabela
+        Object[] cabecalho = new Object[7];
+        cabecalho[0] = "Nome";
+        cabecalho[1] = "Carboidratos";
+        cabecalho[2] = "Proteinas";
+        cabecalho[3] = "Gorduras";
+        cabecalho[4] = "Kcal por porção";
+        cabecalho[5] = "Porções";
+        cabecalho[6] = "Calorias totais";
 
+        // cria matriz de acordo com nº de registros da tabela
+        try {
+            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
+                    + "SELECT count(*) "
+                    + "FROM alimento a, resumo_dia r, consumo_alimento c, usuario u " 
+                    + "WHERE r.data = current_date AND a.id = c.alimento_id AND c.dieta_id = r.id "
+                    + "AND r.usuario_id = u.id AND r.usuario_id = " + user_id);
+
+            resultadoQ.next();
+
+            dadosTabela = new Object[resultadoQ.getInt(1)][7];
+
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar XXX: " + e);
+        }
+
+        int lin = 0;
+
+        // efetua consulta na tabela
+        try {
+            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
+                    + "SELECT a.nome_alimento, a.carboidratos_por_porcao, a.proteinas_por_porcao, a.gorduras_por_porcao, a.kcal_por_porcao, c.numero_porcoes, c.numero_porcoes*a.kcal_por_porcao as total "
+                    + "FROM alimento a, resumo_dia r, consumo_alimento c, usuario u " 
+                    + "WHERE r.data = current_date AND a.id = c.alimento_id AND c.dieta_id = r.id "
+                    + "AND r.usuario_id = u.id AND r.usuario_id = " + user_id + " ORDER BY total desc, nome asc ");
+
+            while (resultadoQ.next()) {
+
+                dadosTabela[lin][0] = resultadoQ.getString("nome_alimento");
+                dadosTabela[lin][1] = resultadoQ.getDouble("carboidratos_por_porcao");
+                dadosTabela[lin][2] = resultadoQ.getDouble("proteinas_por_porcao");
+                dadosTabela[lin][3] = resultadoQ.getDouble("gorduras_por_porcao");
+                dadosTabela[lin][4] = resultadoQ.getDouble("kcal_por_porcao");
+                dadosTabela[lin][5] = resultadoQ.getDouble("numero_porcoes");
+                dadosTabela[lin][6] = resultadoQ.getDouble("total");
+                
+       lin++;
+            }
+        } catch (Exception e) {
+            System.out.println("problemas para popular tabela...");
+            System.out.println(e);
+        }
+    
+                tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
+            @Override
+            // quando retorno for FALSE, a tabela nao é editavel
+            public boolean isCellEditable(int row, int column) {
+                return false;
+                /*  
+                 if (column == 3) {  // apenas a coluna 3 sera editavel
+                 return true;
+                 } else {
+                 return false;
+                 }
+                 */
+            }
+
+            // alteracao no metodo que determina a coluna em que o objeto ImageIcon devera aparecer
+            @Override
+            public Class getColumnClass(int column) {
+
+                if (column == 2) {
+//                    return ImageIcon.class;
+                }
+                return Object.class;
+            }
+        });
+
+        // permite seleção de apenas uma linha da tabela
+        tabela.setSelectionMode(0);
+
+        // redimensiona as colunas de uma tabela
+        TableColumn column = null;
+        for (int i = 0; i < tabela.getColumnCount(); i++) {
+            column = tabela.getColumnModel().getColumn(i);
+            switch (i) {
+                case 0:
+                    column.setPreferredWidth(17);
+                    break;
+                case 1:
+                    column.setPreferredWidth(140);
+                    break;
+//                case 2:
+//                    column.setPreferredWidth(14);
+//                    break;
+            }
+        }
+     }
+
+    
+    public void popularTabelaAtividadeFisica(JTable tabela, int user_id) {
+        // dados da tabela
+        Object[][] dadosTabela = null;
+        // cabecalho da tabela
+        Object[] cabecalho = new Object[4];
+        cabecalho[0] = "Nome";
+        cabecalho[1] = "Kcal/hora";
+        cabecalho[2] = "Duração (minutos)";
+        cabecalho[3] = "Gasto total (kcal)";
+
+        // cria matriz de acordo com nº de registros da tabela
+        try {
+            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
+                    +"SELECT COUNT(*) "+
+                    "FROM atividadefisica af, registro_atividadefisica raf, usuario u, resumo_dia r "+
+                    "WHERE r.data = current_date AND af.idatividadefisica = raf.atividadefisica_idatividadefisica AND raf.dieta_id = r.id "+
+                    "AND r.usuario_id = " + user_id + " AND r.usuario_id = u.id");
+
+            resultadoQ.next();
+
+            dadosTabela = new Object[resultadoQ.getInt(1)][4];
+
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar XXX: " + e);
+        }
+
+        int lin = 0;
+
+        // efetua consulta na tabela
+        try {
+            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
+                    +"SELECT af.nome_atividade, af.kcal_por_hora, raf.duracao, ((af.kcal_por_hora*raf.duracao)/60) as total "+
+                    "FROM atividadefisica af, registro_atividadefisica raf, usuario u, resumo_dia r "+
+                    "WHERE r.data = current_date AND af.idatividadefisica = raf.atividadefisica_idatividadefisica AND raf.dieta_id = r.id "+
+                    "AND r.usuario_id = " + user_id + " AND r.usuario_id = u.id");
+
+            while (resultadoQ.next()) {
+
+                dadosTabela[lin][0] = resultadoQ.getString("nome_atividade");
+                dadosTabela[lin][1] = resultadoQ.getDouble("kcal_por_hora");
+                dadosTabela[lin][2] = resultadoQ.getDouble("duracao");
+                dadosTabela[lin][3] = resultadoQ.getDouble("total");
+                
+       lin++;
+            }
+        } catch (Exception e) {
+            System.out.println("problemas para popular tabela...");
+            System.out.println(e);
+        }
+    
+                tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
+            @Override
+            // quando retorno for FALSE, a tabela nao é editavel
+            public boolean isCellEditable(int row, int column) {
+                return false;
+                /*  
+                 if (column == 3) {  // apenas a coluna 3 sera editavel
+                 return true;
+                 } else {
+                 return false;
+                 }
+                 */
+            }
+
+            // alteracao no metodo que determina a coluna em que o objeto ImageIcon devera aparecer
+            @Override
+            public Class getColumnClass(int column) {
+
+                if (column == 2) {
+//                    return ImageIcon.class;
+                }
+                return Object.class;
+            }
+        });
+
+        // permite seleção de apenas uma linha da tabela
+        tabela.setSelectionMode(0);
+
+        // redimensiona as colunas de uma tabela
+        TableColumn column = null;
+        for (int i = 0; i < tabela.getColumnCount(); i++) {
+            column = tabela.getColumnModel().getColumn(i);
+            switch (i) {
+                case 0:
+                    column.setPreferredWidth(17);
+                    break;
+                case 1:
+                    column.setPreferredWidth(140);
+                    break;
+//                case 2:
+//                    column.setPreferredWidth(14);
+//                    break;
+            }
+        }
+     }
 }

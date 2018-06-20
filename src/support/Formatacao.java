@@ -183,7 +183,7 @@ public class Formatacao {
      public static void forceDotsAndNumbers(java.awt.event.KeyEvent evt){                                   
         char c = evt.getKeyChar();
         
-        if(!(Character.isDigit(c) || c ==  KeyEvent.VK_BACKSPACE || c == KeyEvent.VK_DELETE || c == KeyEvent.VK_PERIOD))
+        if(!(Character.isDigit(c) || c ==  KeyEvent.VK_BACKSPACE || c == KeyEvent.VK_DELETE || c == KeyEvent.VK_PERIOD || c == KeyEvent.VK_COMMA))
         {
             evt.consume();
         }

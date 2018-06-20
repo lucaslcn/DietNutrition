@@ -5,17 +5,31 @@
  */
 package telas;
 
+import daos.alimentoDAO;
+import daos.atividadeFisicaDAO;
+import entidades.alimento;
+import entidades.atividadeFisica;
+import javax.swing.JOptionPane;
+import static support.Formatacao.isNumeric;
+import support.Validacao;
+
 /**
  *
  * @author Lucas
  */
 public class IfrAtividadeFisica extends javax.swing.JInternalFrame {
 
+    int codigo = 0;
     /**
      * Creates new form IfrAtividadeFisica
      */
     public IfrAtividadeFisica() {
         initComponents();
+        this.setTitle("Atividades Físicas");
+        Validacao.validarNumbersOnly(tfdKcal, validarKcal);
+        tfdKcal.setText("0");
+        tfdNome.requestFocus();
+        new atividadeFisicaDAO().popularTabela(tblAtividadeFisica, tfdCriterio.getText());
     }
 
     /**
@@ -33,6 +47,8 @@ public class IfrAtividadeFisica extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         tfdNome = new javax.swing.JTextField();
         tfdKcal = new javax.swing.JTextField();
+        validarKcal = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         tfdCriterio = new javax.swing.JTextField();
@@ -40,27 +56,47 @@ public class IfrAtividadeFisica extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAtividadeFisica = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         jLabel1.setText("Nome da atividade");
 
         jLabel2.setText("Kcal por hora");
 
+        tfdKcal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfdKcalActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Salvar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(34, 34, 34)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(tfdNome)
-                    .addComponent(tfdKcal, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE))
-                .addContainerGap(148, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(tfdNome, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                            .addComponent(tfdKcal)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(validarKcal, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(220, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -72,8 +108,11 @@ public class IfrAtividadeFisica extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(tfdKcal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(209, Short.MAX_VALUE))
+                    .addComponent(tfdKcal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(validarKcal, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(149, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cadastro", jPanel2);
@@ -81,6 +120,11 @@ public class IfrAtividadeFisica extends javax.swing.JInternalFrame {
         jLabel3.setText("Nome");
 
         jButton4.setText("Pesquisar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         tblAtividadeFisica.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -101,6 +145,20 @@ public class IfrAtividadeFisica extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(tblAtividadeFisica);
 
+        jButton1.setText("Editar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Ativar / Desativar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -116,6 +174,12 @@ public class IfrAtividadeFisica extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton4)))
                 .addContainerGap(24, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton5)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,48 +191,125 @@ public class IfrAtividadeFisica extends javax.swing.JInternalFrame {
                     .addComponent(jButton4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton5)))
         );
 
         jTabbedPane1.addTab("Listagem", jPanel1);
 
-        jButton1.setText("Editar");
-
-        jButton2.setText("Salvar");
-
         jButton3.setText("Fechar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addGap(32, 32, 32)
-                .addComponent(jButton3)
-                .addGap(22, 22, 22))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton3)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTabbedPane1)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jTabbedPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                .addComponent(jButton3)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tfdKcalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdKcalActionPerformed
+
+    }//GEN-LAST:event_tfdKcalActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String valor = String.valueOf(tblAtividadeFisica.getValueAt(tblAtividadeFisica.getSelectedRow(), 0));
+        
+        atividadeFisica a = new atividadeFisicaDAO().consultarId(Integer.parseInt(valor));
+        tfdNome.setText(a.getNome_atividade());
+        tfdKcal.setText(""+a.getKcal_por_hora());
+        codigo = a.getId();
+
+        jTabbedPane1.setSelectedIndex(0);
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+        atividadeFisica atividadeFisica = new atividadeFisica();
+        atividadeFisica.setNome_atividade(tfdNome.getText());
+        atividadeFisica.setKcal_por_hora(Double.parseDouble(tfdKcal.getText().replace(',','.')));
+        
+        atividadeFisicaDAO atividadeFisicaDAO = new atividadeFisicaDAO();
+        
+        String retorno = null;
+        
+        if (tfdNome.getText().trim().isEmpty() == false
+           && isNumeric(tfdKcal.getText()))
+        {
+            if (codigo == 0) {
+                retorno = atividadeFisicaDAO.salvar(atividadeFisica);
+            } else {
+                atividadeFisica.setId(codigo);
+                retorno = atividadeFisicaDAO.atualizar(atividadeFisica);
+            }
+        }
+        
+        if (retorno == null && tfdNome.getText().trim().isEmpty() == false && isNumeric(tfdKcal.getText()))
+        {
+            JOptionPane.showMessageDialog(null, "Registro salvo com sucesso!");
+            tfdNome.setText("");
+            tfdKcal.setText("0");
+            tfdNome.requestFocus();
+            codigo = 0;
+            new atividadeFisicaDAO().popularTabela(tblAtividadeFisica, tfdCriterio.getText());
+        }
+            else {
+            JOptionPane.showMessageDialog(null, "Problemas ao salvar registro! Verifique os dados informados\n\n"
+                    + "Mensagem técnica:\n" + retorno);
+        }
+          
+                
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        new atividadeFisicaDAO().popularTabela(tblAtividadeFisica, tfdCriterio.getText());
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        String valor = String.valueOf(tblAtividadeFisica.getValueAt(tblAtividadeFisica.getSelectedRow(), 0));
+        atividadeFisica a = new atividadeFisicaDAO().consultarId(Integer.parseInt(valor));
+        codigo = a.getId();
+
+        String retorno = new atividadeFisicaDAO().excluir(codigo);
+
+        if (retorno == null) {
+            JOptionPane.showMessageDialog(null, "Alterado com sucesso");
+            new atividadeFisicaDAO().popularTabela(tblAtividadeFisica, "");
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao alterar");
+        }
+                                           
+    }//GEN-LAST:event_jButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -176,6 +317,7 @@ public class IfrAtividadeFisica extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -187,5 +329,6 @@ public class IfrAtividadeFisica extends javax.swing.JInternalFrame {
     private javax.swing.JTextField tfdCriterio;
     private javax.swing.JTextField tfdKcal;
     private javax.swing.JTextField tfdNome;
+    private javax.swing.JLabel validarKcal;
     // End of variables declaration//GEN-END:variables
 }

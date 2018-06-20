@@ -53,7 +53,7 @@ public class usuarioDAO implements IDAO_T<Usuario> {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "INSERT INTO usuario VALUES ("
+            String sql = "INSERT INTO usuario (id,nome,email,altura_cm,sexo,data_nascimento, delete) VALUES ("
                     + "DEFAULT, "
                     + "'" + u.getNome() + "', "
                     + "'" + u.getEmail() + "',"
@@ -112,10 +112,12 @@ public class usuarioDAO implements IDAO_T<Usuario> {
 
             int resultado = st.executeUpdate(sql);
             return null;
+            
         } catch (Exception e) {
             System.err.println("Erro ao excluir usuario");
             return e.toString();
         }
+        
     }
 
     @Override
@@ -192,7 +194,7 @@ public class usuarioDAO implements IDAO_T<Usuario> {
         // efetua consulta na tabela
         try {
             resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT * FROM usuario WHERE NOME ILIKE '%" + criterio + "%'");
+                    + "SELECT * FROM usuario WHERE NOME ILIKE '%" + criterio + "%' ORDER BY DELETE DESC, nome ASC");
 
             while (resultadoQ.next()) {
 

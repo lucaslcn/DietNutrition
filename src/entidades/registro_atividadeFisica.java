@@ -14,9 +14,25 @@ import java.time.LocalDate;
 public class registro_atividadeFisica {
     
     private int id;
+    private int dieta_id;
+
+    public int getDieta_id() {
+        return dieta_id;
+    }
+
+    public void setDieta_id(int dieta_id) {
+        this.dieta_id = dieta_id;
+    }
     private double duracao;
-    private double km;
-    private LocalDate data;
+    private boolean delete;
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
+    }
 
     public int getId() {
         return id;
@@ -34,20 +50,5 @@ public class registro_atividadeFisica {
         this.duracao = duracao;
     }
 
-    public double getKm() {
-        return km;
-    }
 
-    public void setKm(double km) {
-        this.km = km;
-    }
-
-    public LocalDate getData() {
-        return data;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
-    }
-    
 }

@@ -107,6 +107,7 @@ public class IfrResumoDiaAccess extends javax.swing.JInternalFrame {
         painel.add(ifrResumoDia);
         ifrResumoDia.setVisible(true);
 
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

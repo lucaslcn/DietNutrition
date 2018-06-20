@@ -54,7 +54,7 @@ public class CombosDAO {
         combo.addItem(item);
 
         try {
-            resultado = new ConexaoBD().getConnection().createStatement().executeQuery("select * from " + tabela);
+            resultado = new ConexaoBD().getConnection().createStatement().executeQuery("select * from " + tabela + " WHERE DELETE = TRUE");
 
             if (resultado.isBeforeFirst()) {
                 while (resultado.next()) {

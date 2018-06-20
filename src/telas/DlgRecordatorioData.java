@@ -58,6 +58,8 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
         jComboBox2 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAutoRequestFocus(false);
@@ -73,7 +75,7 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
 
         jLabel2.setText("Usuário");
 
-        jLabel3.setText("Data");
+        jLabel3.setText("Data inicial");
 
         jButton1.setText("Pesquisar datas");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -97,6 +99,14 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
 
         jLabel4.setText("*Funcional apenas para alimentos no momento.");
 
+        jLabel5.setText("Data final");
+
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -105,23 +115,25 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
                 .addContainerGap(153, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(90, 90, 90))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel4))
             .addGroup(layout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox2, 0, 203, Short.MAX_VALUE))
+                    .addComponent(jComboBox1, 0, 203, Short.MAX_VALUE)
+                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel4))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,12 +145,20 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jButton1))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addComponent(jLabel4))
         );
 
@@ -158,9 +178,12 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
         combosDAO.popularComboUserDate((selecionado.getCodigo()), jComboBox2);
         ComboItens itens = new ComboItens();
         combosDAO.definirItemCombo(jComboBox2, itens);
+        ComboItens itens2 = new ComboItens();
+        combosDAO.popularComboUserDate(selecionado.getCodigo(), jComboBox3);
+        combosDAO.definirItemCombo(jComboBox3, itens2);
         jButton1.setEnabled(false);
-        jButton2.setEnabled(true);
         jComboBox1.setEnabled(false);
+        jButton2.setEnabled(true);
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -170,15 +193,18 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
-        ComboItens selected = new ComboItens();
-        if (jComboBox2.getSelectedIndex() > 0)
+        ComboItens initial_date_selected = new ComboItens();
+        ComboItens final_date_selected = new ComboItens();
+        if (jComboBox2.getSelectedIndex() > 0 && jComboBox3.getSelectedIndex() >= jComboBox2.getSelectedIndex())
         {
-        selected = (ComboItens) jComboBox2.getSelectedItem();
-        System.out.println(selected.getDescricao());
-        System.out.println(selected.getCodigo());
-        String date = selected.getDescricao();
-        System.out.println(date);
-        int user = selected.getCodigo();
+        initial_date_selected = (ComboItens) jComboBox2.getSelectedItem();
+        final_date_selected = (ComboItens) jComboBox3.getSelectedItem();
+        System.out.println(initial_date_selected.getDescricao());
+        System.out.println(final_date_selected.getDescricao());
+        String initial_date = initial_date_selected.getDescricao();
+        String final_date = final_date_selected.getDescricao();
+        System.out.println(initial_date + " " + final_date);
+        int user = initial_date_selected.getCodigo();
         this.dispose();
         
         
@@ -192,7 +218,8 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
             Map parametros = new HashMap();
             
             // adiciona parametros
-            parametros.put("data",date);
+            parametros.put("data",initial_date);
+            parametros.put("data2",final_date);
             parametros.put("user_id",user);
             // Executa relatoio
             JasperPrint impressao = JasperFillManager.fillReport(relatorio, parametros, ConexaoBD.getInstance().getConnection());
@@ -204,7 +231,12 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
         
         }
         }
+        else {JOptionPane.showMessageDialog(null, "Erro na seleçã das datas, verifique se um dos campos está em branco ou se a data final é anterior à data inicial");};
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -253,9 +285,11 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     // End of variables declaration//GEN-END:variables
 }

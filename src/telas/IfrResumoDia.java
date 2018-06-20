@@ -10,10 +10,12 @@ import support.Formatacao;
 import support.ComboItens;
 import daos.CombosDAO;
 import daos.Consumo_alimentoDAO;
+import daos.registro_atividadeFisicaDAO;
 import daos.resumo_diaDAO;
 import daos.usuarioDAO;
 import entidades.Usuario;
 import entidades.consumo_alimento;
+import entidades.registro_atividadeFisica;
 import entidades.resumo_dia;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -59,7 +61,8 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
 
         System.out.println("resumo_dia_consultarId: " + resumo.getId());
         this.resumo_id = resumo.getId();
-        
+        new resumo_diaDAO().popularTabelaAlimentos(jTable2, user_id);
+        new resumo_diaDAO().popularTabelaAtividadeFisica(jTable1, user_id);
         
         CombosDAO combosDAO = new CombosDAO();
         combosDAO.popularCombo("alimento", jComboBox1);
@@ -115,6 +118,9 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         tfdData = new javax.swing.JTextField();
@@ -122,8 +128,6 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
         tfdNome = new javax.swing.JTextField();
 
         setClosable(true);
-
-        jTabbedPane1.setEnabled(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Selecione as atividades realizadas e alimentos consumidos no dia:");
@@ -148,7 +152,11 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
         jLabel4.setText("ATIVIDADES FÍSICAS");
 
         BtnRegistrarAtividade.setText("Registrar");
-        BtnRegistrarAtividade.setEnabled(false);
+        BtnRegistrarAtividade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnRegistrarAtividadeActionPerformed(evt);
+            }
+        });
 
         comboPorcoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Porções", "0.5", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
         comboPorcoes.addActionListener(new java.awt.event.ActionListener() {
@@ -158,7 +166,11 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
         });
 
         comboPorcoes1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Duração (minutos)", "15", "30", "45", "60", "75", "90", "105", "120" }));
-        comboPorcoes1.setEnabled(false);
+        comboPorcoes1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboPorcoes1ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 0, 0));
@@ -209,7 +221,11 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
         });
 
         jButton2.setText("Zerar duração da atividade selecionada");
-        jButton2.setEnabled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -327,10 +343,38 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
                     .addComponent(comboPorcoes1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnRegistrarAtividade)
                     .addComponent(jButton2))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Registro", jPanel1);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable2);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 801, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 162, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Alimentos do dia", jPanel2);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -343,22 +387,24 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane2.setViewportView(jTable1);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 801, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
+                .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 106, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 119, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Relatório diário", jPanel2);
+        jTabbedPane1.addTab("Atividades físicas do dia", jPanel3);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Data:");
@@ -422,89 +468,150 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_tfdDataActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-       
-        
-        
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void comboPorcoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPorcoesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboPorcoesActionPerformed
-
-    private void BtnRegistrarAlimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarAlimentoActionPerformed
-        
-        ComboItens alimentoSelecionado = new ComboItens();
-        alimentoSelecionado = (ComboItens) jComboBox1.getSelectedItem();
-        System.out.println("\nid: " + alimentoSelecionado.getCodigo());
-        
-        if (jComboBox1.getSelectedIndex() != 0 && comboPorcoes.getSelectedIndex() != 0)
-        {
-        float porcaoSelecionada = Float.parseFloat((String)comboPorcoes.getSelectedItem());
-        System.out.println("numero de porcoes: " + porcaoSelecionada);
-        consumo_alimento consumo_alimento = new consumo_alimento();
-        consumo_alimento.setDieta_id(resumo_id);
-        consumo_alimento.setAlimento_id(alimentoSelecionado.getCodigo());
-        consumo_alimento.setNumero_porcoes(porcaoSelecionada);
-        
-        Consumo_alimentoDAO consumo_alimentoDAO = new Consumo_alimentoDAO();
-            try {
-                consumo_alimentoDAO.salvar(consumo_alimento, resumo_id);
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(IfrResumoDia.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        resumo_diaDAO resumo_diaDAO = new resumo_diaDAO();
-        tfdSaldoKcal.setText(String.valueOf(resumo_diaDAO.updateSaldoKcal(user_id)));
-        tfdSaldoCarb.setText(String.valueOf(resumo_diaDAO.updateSaldoCarb(user_id)));
-        tfdSaldoProt.setText(String.valueOf(resumo_diaDAO.updateSaldoProt(user_id)));
-        tfdSaldoGorduras.setText(String.valueOf(resumo_diaDAO.updateSaldoGorduras(user_id)));
-        tfdAtividadeFisica.setText(String.valueOf(resumo_diaDAO.updateSaldoAtividadeFisica(user_id)));
-        tfdSaldoFinal.setText(String.valueOf(resumo_diaDAO.updateSaldoFinal(user_id)));
-        
-        }
-        
-        
-    }//GEN-LAST:event_BtnRegistrarAlimentoActionPerformed
-
     private void tfdNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdNomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfdNomeActionPerformed
 
-    private void tfdSaldoFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdSaldoFinalActionPerformed
-        
-    }//GEN-LAST:event_tfdSaldoFinalActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        ComboItens atividadeSelecionada = new ComboItens();
+        atividadeSelecionada = (ComboItens) jComboBox2.getSelectedItem();
+        System.out.println("\nid: " + atividadeSelecionada.getCodigo());
+
+        if (jComboBox2.getSelectedIndex() != 0)
+        {
+            System.out.println("nome da atividade a zerar a duração " + atividadeSelecionada.getDescricao());
+
+            resumo_diaDAO resumo_diaDAO = new resumo_diaDAO();
+            System.out.println("user_id: " +user_id + "\n atividade_codigo = " + atividadeSelecionada.getCodigo());
+            resumo_diaDAO.zerarAtividadeFisica(user_id, atividadeSelecionada.getCodigo(), resumo_id);
+            JOptionPane.showMessageDialog(null, "Duração da atividade " + atividadeSelecionada.getDescricao() + " zerada!");
+
+            tfdAtividadeFisica.setText(String.valueOf(resumo_diaDAO.updateSaldoAtividadeFisica(user_id)));
+            tfdSaldoFinal.setText(String.valueOf(resumo_diaDAO.updateSaldoFinal(user_id)));
+        }
+
+        new resumo_diaDAO().popularTabelaAlimentos(jTable2, user_id);
+        new resumo_diaDAO().popularTabelaAtividadeFisica(jTable1, user_id);
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        ComboItens alimentoSelecionado = new ComboItens();
+        alimentoSelecionado = (ComboItens) jComboBox1.getSelectedItem();
+        System.out.println("\nid: " + alimentoSelecionado.getCodigo());
+
+        if (jComboBox1.getSelectedIndex() != 0)
+        {
+            System.out.println("nome do alimento a zerar as porções: " + alimentoSelecionado.getDescricao());
+
+            resumo_diaDAO resumo_diaDAO = new resumo_diaDAO();
+            System.out.println("user_id: " +user_id + "\n alimento_codigo = " + alimentoSelecionado.getCodigo());
+            resumo_diaDAO.zerarNumeroPorcoes(user_id, alimentoSelecionado.getCodigo(), resumo_id);
+            JOptionPane.showMessageDialog(null, "Porções do alimento " + alimentoSelecionado.getDescricao() + " zeradas!");
+
+            tfdSaldoKcal.setText(String.valueOf(resumo_diaDAO.updateSaldoKcal(user_id)));
+            tfdSaldoCarb.setText(String.valueOf(resumo_diaDAO.updateSaldoCarb(user_id)));
+            tfdSaldoProt.setText(String.valueOf(resumo_diaDAO.updateSaldoProt(user_id)));
+            tfdSaldoGorduras.setText(String.valueOf(resumo_diaDAO.updateSaldoGorduras(user_id)));
+            tfdSaldoFinal.setText(String.valueOf(resumo_diaDAO.updateSaldoFinal(user_id)));
+        }
+        new resumo_diaDAO().popularTabelaAlimentos(jTable2, user_id);
+        new resumo_diaDAO().popularTabelaAtividadeFisica(jTable1, user_id);
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tfdSaldoKcalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdSaldoKcalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfdSaldoKcalActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+    private void tfdSaldoFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdSaldoFinalActionPerformed
+
+    }//GEN-LAST:event_tfdSaldoFinalActionPerformed
+
+    private void comboPorcoes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPorcoes1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboPorcoes1ActionPerformed
+
+    private void comboPorcoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPorcoesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboPorcoesActionPerformed
+
+    private void BtnRegistrarAtividadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarAtividadeActionPerformed
+
+        ComboItens atividadeSelecionada = new ComboItens();
+        atividadeSelecionada = (ComboItens) jComboBox2.getSelectedItem();
+        System.out.println("\nid: " + atividadeSelecionada.getCodigo());
+
+        if (jComboBox2.getSelectedIndex() != 0 && comboPorcoes1.getSelectedIndex() != 0)
+        {
+            float duracaoSelecionada = Float.parseFloat((String)comboPorcoes1.getSelectedItem());
+            System.out.println("duracao selecionada: " + duracaoSelecionada);
+            registro_atividadeFisica registro_atividadeFisica = new registro_atividadeFisica();
+            registro_atividadeFisica.setDieta_id(resumo_id);
+            registro_atividadeFisica.setId(atividadeSelecionada.getCodigo());
+            registro_atividadeFisica.setDuracao(duracaoSelecionada);
+
+            registro_atividadeFisicaDAO registro_atividadeFisicaDAO = new registro_atividadeFisicaDAO();
+            try {
+                registro_atividadeFisicaDAO.salvar(registro_atividadeFisica, resumo_id);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(IfrResumoDia.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            resumo_diaDAO resumo_diaDAO = new resumo_diaDAO();
+            tfdSaldoKcal.setText(String.valueOf(resumo_diaDAO.updateSaldoKcal(user_id)));
+            tfdSaldoCarb.setText(String.valueOf(resumo_diaDAO.updateSaldoCarb(user_id)));
+            tfdSaldoProt.setText(String.valueOf(resumo_diaDAO.updateSaldoProt(user_id)));
+            tfdSaldoGorduras.setText(String.valueOf(resumo_diaDAO.updateSaldoGorduras(user_id)));
+            tfdAtividadeFisica.setText(String.valueOf(resumo_diaDAO.updateSaldoAtividadeFisica(user_id)));
+            tfdSaldoFinal.setText(String.valueOf(resumo_diaDAO.updateSaldoFinal(user_id)));
+        }
+        new resumo_diaDAO().popularTabelaAlimentos(jTable2, user_id);
+        new resumo_diaDAO().popularTabelaAtividadeFisica(jTable1, user_id);
+    }//GEN-LAST:event_BtnRegistrarAtividadeActionPerformed
+
+    private void BtnRegistrarAlimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarAlimentoActionPerformed
+
         ComboItens alimentoSelecionado = new ComboItens();
         alimentoSelecionado = (ComboItens) jComboBox1.getSelectedItem();
         System.out.println("\nid: " + alimentoSelecionado.getCodigo());
-        
-        if (jComboBox1.getSelectedIndex() != 0)
+
+        if (jComboBox1.getSelectedIndex() != 0 && comboPorcoes.getSelectedIndex() != 0)
         {
-        System.out.println("nome do alimento a zerar as porções: " + alimentoSelecionado.getDescricao());
-        
-        resumo_diaDAO resumo_diaDAO = new resumo_diaDAO();
-        System.out.println("user_id: " +user_id + "\n alimento_codigo = " + alimentoSelecionado.getCodigo());
-        resumo_diaDAO.zerarNumeroPorcoes(user_id, alimentoSelecionado.getCodigo(), resumo_id);
-        JOptionPane.showMessageDialog(null, "Porções do alimento " + alimentoSelecionado.getDescricao() + " zeradas!");
-                
-        tfdSaldoKcal.setText(String.valueOf(resumo_diaDAO.updateSaldoKcal(user_id)));
-        tfdSaldoCarb.setText(String.valueOf(resumo_diaDAO.updateSaldoCarb(user_id)));
-        tfdSaldoProt.setText(String.valueOf(resumo_diaDAO.updateSaldoProt(user_id)));
-        tfdSaldoGorduras.setText(String.valueOf(resumo_diaDAO.updateSaldoGorduras(user_id)));
-        tfdSaldoFinal.setText(String.valueOf(resumo_diaDAO.updateSaldoFinal(user_id)));
+            float porcaoSelecionada = Float.parseFloat((String)comboPorcoes.getSelectedItem());
+            System.out.println("numero de porcoes: " + porcaoSelecionada);
+            consumo_alimento consumo_alimento = new consumo_alimento();
+            consumo_alimento.setDieta_id(resumo_id);
+            consumo_alimento.setAlimento_id(alimentoSelecionado.getCodigo());
+            consumo_alimento.setNumero_porcoes(porcaoSelecionada);
+
+            Consumo_alimentoDAO consumo_alimentoDAO = new Consumo_alimentoDAO();
+            try {
+                consumo_alimentoDAO.salvar(consumo_alimento, resumo_id);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(IfrResumoDia.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            resumo_diaDAO resumo_diaDAO = new resumo_diaDAO();
+            tfdSaldoKcal.setText(String.valueOf(resumo_diaDAO.updateSaldoKcal(user_id)));
+            tfdSaldoCarb.setText(String.valueOf(resumo_diaDAO.updateSaldoCarb(user_id)));
+            tfdSaldoProt.setText(String.valueOf(resumo_diaDAO.updateSaldoProt(user_id)));
+            tfdSaldoGorduras.setText(String.valueOf(resumo_diaDAO.updateSaldoGorduras(user_id)));
+            tfdAtividadeFisica.setText(String.valueOf(resumo_diaDAO.updateSaldoAtividadeFisica(user_id)));
+            tfdSaldoFinal.setText(String.valueOf(resumo_diaDAO.updateSaldoFinal(user_id)));
+
         }
-        
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+        new resumo_diaDAO().popularTabelaAlimentos(jTable2, user_id);
+
+    }//GEN-LAST:event_BtnRegistrarAlimentoActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -529,9 +636,12 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextField tfdAtividadeFisica;
     private javax.swing.JTextField tfdData;
     private javax.swing.JTextField tfdNome;
