@@ -37,6 +37,7 @@ public class Consumo_alimentoDAO implements IDAO_T<consumo_alimento> {
             System.out.println("sql: " + sql);
 
             int resultado = st.executeUpdate(sql);
+            JOptionPane.showMessageDialog(null, "Alimento inserido com sucesso!");
 
             return null;
 

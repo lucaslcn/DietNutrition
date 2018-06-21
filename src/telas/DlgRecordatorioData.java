@@ -57,7 +57,6 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jComboBox2 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
 
@@ -97,8 +96,6 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
             }
         });
 
-        jLabel4.setText("*Funcional apenas para alimentos no momento.");
-
         jLabel5.setText("Data final");
 
         jComboBox3.addActionListener(new java.awt.event.ActionListener() {
@@ -115,9 +112,6 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
                 .addContainerGap(153, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(90, 90, 90))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel4))
             .addGroup(layout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -158,8 +152,7 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addComponent(jLabel4))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         pack();
@@ -289,7 +282,6 @@ public class DlgRecordatorioData extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     // End of variables declaration//GEN-END:variables
 }

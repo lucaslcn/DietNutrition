@@ -5,7 +5,7 @@
 -- Dumped from database version 10.3
 -- Dumped by pg_dump version 10.3
 
--- Started on 2018-05-10 18:50:34
+-- Started on 2018-06-21 18:55:30
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -26,7 +26,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2888 (class 0 OID 0)
+-- TOC entry 2887 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -73,7 +73,7 @@ CREATE SEQUENCE public.alimento_id_seq
 ALTER TABLE public.alimento_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2889 (class 0 OID 0)
+-- TOC entry 2888 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: alimento_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -98,7 +98,7 @@ CREATE TABLE public.antropometria (
 ALTER TABLE public.antropometria OWNER TO postgres;
 
 --
--- TOC entry 211 (class 1259 OID 16477)
+-- TOC entry 210 (class 1259 OID 16477)
 -- Name: atividade_dieta; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -112,7 +112,7 @@ CREATE TABLE public.atividade_dieta (
 ALTER TABLE public.atividade_dieta OWNER TO postgres;
 
 --
--- TOC entry 210 (class 1259 OID 16475)
+-- TOC entry 209 (class 1259 OID 16475)
 -- Name: atividade_dieta_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -128,8 +128,8 @@ CREATE SEQUENCE public.atividade_dieta_id_seq
 ALTER TABLE public.atividade_dieta_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2890 (class 0 OID 0)
--- Dependencies: 210
+-- TOC entry 2889 (class 0 OID 0)
+-- Dependencies: 209
 -- Name: atividade_dieta_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -144,7 +144,8 @@ ALTER SEQUENCE public.atividade_dieta_id_seq OWNED BY public.atividade_dieta.id;
 CREATE TABLE public.atividadefisica (
     idatividadefisica integer NOT NULL,
     nome_atividade character varying(45),
-    kcal_por_hora double precision
+    kcal_por_hora double precision,
+    delete boolean DEFAULT true NOT NULL
 );
 
 
@@ -167,7 +168,7 @@ CREATE SEQUENCE public.atividadefisica_idatividadefisica_seq
 ALTER TABLE public.atividadefisica_idatividadefisica_seq OWNER TO postgres;
 
 --
--- TOC entry 2891 (class 0 OID 0)
+-- TOC entry 2890 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: atividadefisica_idatividadefisica_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -207,7 +208,7 @@ CREATE SEQUENCE public.consumo_alimento_dieta_id_seq
 ALTER TABLE public.consumo_alimento_dieta_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2892 (class 0 OID 0)
+-- TOC entry 2891 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: consumo_alimento_dieta_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -232,7 +233,7 @@ CREATE SEQUENCE public.peso_id_seq
 ALTER TABLE public.peso_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2893 (class 0 OID 0)
+-- TOC entry 2892 (class 0 OID 0)
 -- Dependencies: 198
 -- Name: peso_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -241,45 +242,19 @@ ALTER SEQUENCE public.peso_id_seq OWNED BY public.antropometria.id;
 
 
 --
--- TOC entry 209 (class 1259 OID 16464)
+-- TOC entry 208 (class 1259 OID 16464)
 -- Name: registro_atividadefisica; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.registro_atividadefisica (
-    id integer NOT NULL,
     atividadefisica_idatividadefisica integer NOT NULL,
     duracao double precision,
-    km double precision,
-    data date
+    dieta_id integer NOT NULL,
+    delete boolean DEFAULT true NOT NULL
 );
 
 
 ALTER TABLE public.registro_atividadefisica OWNER TO postgres;
-
---
--- TOC entry 208 (class 1259 OID 16462)
--- Name: registro_atividadefisica_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.registro_atividadefisica_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.registro_atividadefisica_id_seq OWNER TO postgres;
-
---
--- TOC entry 2894 (class 0 OID 0)
--- Dependencies: 208
--- Name: registro_atividadefisica_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.registro_atividadefisica_id_seq OWNED BY public.registro_atividadefisica.id;
-
 
 --
 -- TOC entry 201 (class 1259 OID 16417)
@@ -313,7 +288,7 @@ CREATE SEQUENCE public.resumo_dia_id_seq
 ALTER TABLE public.resumo_dia_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2895 (class 0 OID 0)
+-- TOC entry 2893 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: resumo_dia_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -335,7 +310,7 @@ CREATE TABLE public.usuario (
     data_nascimento date NOT NULL,
     senha character varying(45),
     username character varying(45),
-    delete boolean
+    delete boolean DEFAULT true NOT NULL
 );
 
 
@@ -358,7 +333,7 @@ CREATE SEQUENCE public.usuario_id_seq
 ALTER TABLE public.usuario_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2896 (class 0 OID 0)
+-- TOC entry 2894 (class 0 OID 0)
 -- Dependencies: 196
 -- Name: usuario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -367,7 +342,7 @@ ALTER SEQUENCE public.usuario_id_seq OWNED BY public.usuario.id;
 
 
 --
--- TOC entry 2716 (class 2604 OID 16433)
+-- TOC entry 2715 (class 2604 OID 16433)
 -- Name: alimento id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -375,7 +350,7 @@ ALTER TABLE ONLY public.alimento ALTER COLUMN id SET DEFAULT nextval('public.ali
 
 
 --
--- TOC entry 2714 (class 2604 OID 16407)
+-- TOC entry 2713 (class 2604 OID 16407)
 -- Name: antropometria id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -391,7 +366,7 @@ ALTER TABLE ONLY public.atividade_dieta ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
--- TOC entry 2717 (class 2604 OID 16441)
+-- TOC entry 2716 (class 2604 OID 16441)
 -- Name: atividadefisica idatividadefisica; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -407,15 +382,7 @@ ALTER TABLE ONLY public.consumo_alimento ALTER COLUMN dieta_id SET DEFAULT nextv
 
 
 --
--- TOC entry 2719 (class 2604 OID 16467)
--- Name: registro_atividadefisica id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.registro_atividadefisica ALTER COLUMN id SET DEFAULT nextval('public.registro_atividadefisica_id_seq'::regclass);
-
-
---
--- TOC entry 2715 (class 2604 OID 16420)
+-- TOC entry 2714 (class 2604 OID 16420)
 -- Name: resumo_dia id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -423,7 +390,7 @@ ALTER TABLE ONLY public.resumo_dia ALTER COLUMN id SET DEFAULT nextval('public.r
 
 
 --
--- TOC entry 2713 (class 2604 OID 16399)
+-- TOC entry 2711 (class 2604 OID 16399)
 -- Name: usuario id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -437,14 +404,18 @@ ALTER TABLE ONLY public.usuario ALTER COLUMN id SET DEFAULT nextval('public.usua
 --
 
 COPY public.alimento (id, nome_alimento, carboidratos_por_porcao, proteinas_por_porcao, gorduras_por_porcao, kcal_por_porcao, delete) FROM stdin;
-2	Batata	10	20	30	40	t
 12	Arroz	20	10	5	90	t
 1	Aipim	10	20	30	40	t
-4	Maçã	20	10	10	10	t
 3	Feijão	10	20	30	40	t
-11	Frango grelhado sem pele	10.1	20.199999999999999	20.300000000000001	20.399999999999999	t
-6	Sorvete de uva	10	10	10	10	t
 17	Pipoca	25	1.5	8	101	t
+2	Batata	10	20	30	40	t
+11	Frango grelhado sem pele	10.1	20.800000000000001	20.300000000000001	20.399999999999999	t
+6	Sorvete de uva	12	0.5	19.300000000000001	192	t
+4	Maçã	20	10	10	10	t
+18	Fabricio	20.199999999999999	20.300000000000001	20.399999999999999	20.5	f
+19	Pão Cacetinho	20	1.5	0.10000000000000001	90	t
+20	Presunto magro	0.5	8	5	35	t
+21	Leite desnatado	10	9	8	110	t
 \.
 
 
@@ -459,14 +430,12 @@ COPY public.antropometria (id, peso_kg, data, imc, usuario_id) FROM stdin;
 
 
 --
--- TOC entry 2880 (class 0 OID 16477)
--- Dependencies: 211
+-- TOC entry 2879 (class 0 OID 16477)
+-- Dependencies: 210
 -- Data for Name: atividade_dieta; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.atividade_dieta (id, registro_atividadefisica_id, dieta_id) FROM stdin;
-1	1	5
-2	1	12
 \.
 
 
@@ -476,8 +445,11 @@ COPY public.atividade_dieta (id, registro_atividadefisica_id, dieta_id) FROM std
 -- Data for Name: atividadefisica; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.atividadefisica (idatividadefisica, nome_atividade, kcal_por_hora) FROM stdin;
-1	Bicicleta	280
+COPY public.atividadefisica (idatividadefisica, nome_atividade, kcal_por_hora, delete) FROM stdin;
+1	Bicicleta	280	t
+4	Escalada	300	t
+2	Caminhada	90	t
+3	Patinação	250	t
 \.
 
 
@@ -488,14 +460,12 @@ COPY public.atividadefisica (idatividadefisica, nome_atividade, kcal_por_hora) F
 --
 
 COPY public.consumo_alimento (dieta_id, alimento_id, numero_porcoes, delete) FROM stdin;
-12	4	0	t
-9	4	0	t
-6	4	0	t
-5	4	0	t
-2	4	0	t
-3	4	0	t
-4	4	0	t
-10	4	0	t
+26	1	1	t
+15	11	2	t
+15	3	1	t
+15	18	1	t
+13	12	0	t
+15	12	0	t
 2	12	0	t
 5	12	0	t
 10	6	0	t
@@ -505,23 +475,44 @@ COPY public.consumo_alimento (dieta_id, alimento_id, numero_porcoes, delete) FRO
 12	3	4	t
 2	2	0	t
 3	2	0	t
-9	1	0	t
-5	1	0	t
-10	1	0	t
 5	2	0	t
 12	2	0	t
 10	2	0	t
+9	1	0	t
+5	1	0	t
+10	1	0	t
+12	1	0	t
+9	4	0	t
+6	4	0	t
+5	4	0	t
+2	4	0	t
+3	4	0	t
+4	4	0	t
+10	4	0	t
+12	4	0	t
+16	1	3	t
+16	12	12	t
+18	12	0.5	t
+20	12	2	t
+21	3	3	t
+21	17	2	t
+21	6	4	t
+22	1	1	t
+23	3	16	t
 \.
 
 
 --
--- TOC entry 2878 (class 0 OID 16464)
--- Dependencies: 209
+-- TOC entry 2877 (class 0 OID 16464)
+-- Dependencies: 208
 -- Data for Name: registro_atividadefisica; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.registro_atividadefisica (id, atividadefisica_idatividadefisica, duracao, km, data) FROM stdin;
-1	1	80	10	2018-05-09
+COPY public.registro_atividadefisica (atividadefisica_idatividadefisica, duracao, dieta_id, delete) FROM stdin;
+1	75	22	t
+4	30	22	t
+2	30	22	t
+1	120	23	t
 \.
 
 
@@ -544,6 +535,20 @@ COPY public.resumo_dia (id, saldokcal, usuario_id, data) FROM stdin;
 10	0	10	2018-05-10
 11	0	2	2018-05-10
 12	0	11	2018-05-10
+13	0	2	2018-06-14
+14	0	9	2018-06-18
+15	0	12	2018-06-19
+16	0	9	2018-06-19
+17	0	2	2018-06-19
+18	0	6	2018-06-19
+19	0	9	2018-06-20
+20	0	2	2018-06-20
+21	0	11	2018-06-21
+22	0	12	2018-06-21
+23	0	2	2018-06-21
+24	0	7	2018-06-21
+25	0	9	2018-06-21
+26	0	10	2018-06-21
 \.
 
 
@@ -554,27 +559,28 @@ COPY public.resumo_dia (id, saldokcal, usuario_id, data) FROM stdin;
 --
 
 COPY public.usuario (id, nome, email, altura_cm, sexo, data_nascimento, senha, username, delete) FROM stdin;
-9	Eduardo Führ Poletti		188	M	1996-02-06	true	\N	\N
+6	Definitely not admin	notadmin@notadmin.com	171	M	1994-08-03	66d4aaa5ea177ac32c69946de3731ec0	admintest	f
+11	Segunda Cobaia	soucobaia@cobaiainutil.com.br	190	M	2005-10-10	63413568cab33e93a7c3eca400601483	admincobaia2	t
+10	Cobaia	cobaia@cobaia.com.br	180	M	2000-01-01	61a13a36417ec0fb5dd529eed265cab6	admincobaia	t
+7	Leonardo Grun		170	F	1993-09-16	88e6f26fe642d6ab0e4d22e417e40fc8	leogay	t
 2	Lucas	lucaslucian471@gmail.com	171	F	1994-08-03	21232f297a57a5a743894a0e4a801fc3	admin	t
-7	Leonardo Grun		170	F	1993-09-16	88e6f26fe642d6ab0e4d22e417e40fc8	leogay	f
-6	Definitely not admin	notadmin@notadmin.com	171	M	1994-08-03	66d4aaa5ea177ac32c69946de3731ec0	admintest	t
-10	Cobaia	cobaia@cobaia.com.br	180	M	2000-01-01	true	\N	\N
-11	Segunda Cobaia	soucobaia@cobaiainutil.com.br	190	M	2005-10-10	true	\N	\N
+12	Anderson	anderson@anderson.com.br	182	M	1997-04-07	89ba023086e37a345839e0c6a0d272eb	anderson	t
+9	Fabricio	fabricio@fabricio.com.br	190	M	2005-05-18	d0897f2431af6a06ca7f2b817a2cb996	Poletti	t
 \.
 
 
 --
--- TOC entry 2897 (class 0 OID 0)
+-- TOC entry 2895 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: alimento_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.alimento_id_seq', 17, true);
+SELECT pg_catalog.setval('public.alimento_id_seq', 21, true);
 
 
 --
--- TOC entry 2898 (class 0 OID 0)
--- Dependencies: 210
+-- TOC entry 2896 (class 0 OID 0)
+-- Dependencies: 209
 -- Name: atividade_dieta_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -582,16 +588,16 @@ SELECT pg_catalog.setval('public.atividade_dieta_id_seq', 2, true);
 
 
 --
--- TOC entry 2899 (class 0 OID 0)
+-- TOC entry 2897 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: atividadefisica_idatividadefisica_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.atividadefisica_idatividadefisica_seq', 1, true);
+SELECT pg_catalog.setval('public.atividadefisica_idatividadefisica_seq', 4, true);
 
 
 --
--- TOC entry 2900 (class 0 OID 0)
+-- TOC entry 2898 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: consumo_alimento_dieta_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -600,7 +606,7 @@ SELECT pg_catalog.setval('public.consumo_alimento_dieta_id_seq', 1, false);
 
 
 --
--- TOC entry 2901 (class 0 OID 0)
+-- TOC entry 2899 (class 0 OID 0)
 -- Dependencies: 198
 -- Name: peso_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -609,30 +615,21 @@ SELECT pg_catalog.setval('public.peso_id_seq', 1, false);
 
 
 --
--- TOC entry 2902 (class 0 OID 0)
--- Dependencies: 208
--- Name: registro_atividadefisica_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.registro_atividadefisica_id_seq', 1, true);
-
-
---
--- TOC entry 2903 (class 0 OID 0)
+-- TOC entry 2900 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: resumo_dia_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.resumo_dia_id_seq', 12, true);
+SELECT pg_catalog.setval('public.resumo_dia_id_seq', 26, true);
 
 
 --
--- TOC entry 2904 (class 0 OID 0)
+-- TOC entry 2901 (class 0 OID 0)
 -- Dependencies: 196
 -- Name: usuario_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.usuario_id_seq', 11, true);
+SELECT pg_catalog.setval('public.usuario_id_seq', 12, true);
 
 
 --
@@ -681,12 +678,12 @@ ALTER TABLE ONLY public.antropometria
 
 
 --
--- TOC entry 2734 (class 2606 OID 16469)
--- Name: registro_atividadefisica registro_atividadefisica_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2734 (class 2606 OID 16521)
+-- Name: registro_atividadefisica registro_atividade_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.registro_atividadefisica
-    ADD CONSTRAINT registro_atividadefisica_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT registro_atividade_pk PRIMARY KEY (atividadefisica_idatividadefisica, dieta_id);
 
 
 --
@@ -708,21 +705,21 @@ ALTER TABLE ONLY public.usuario
 
 
 --
+-- TOC entry 2742 (class 2606 OID 16506)
+-- Name: registro_atividadefisica dieta_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.registro_atividadefisica
+    ADD CONSTRAINT dieta_id_fk FOREIGN KEY (dieta_id) REFERENCES public.resumo_dia(id);
+
+
+--
 -- TOC entry 2743 (class 2606 OID 16488)
 -- Name: atividade_dieta fk_atividade_dieta_dieta1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.atividade_dieta
     ADD CONSTRAINT fk_atividade_dieta_dieta1 FOREIGN KEY (dieta_id) REFERENCES public.resumo_dia(id);
-
-
---
--- TOC entry 2742 (class 2606 OID 16483)
--- Name: atividade_dieta fk_atividade_dieta_registro_atividadefisica1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.atividade_dieta
-    ADD CONSTRAINT fk_atividade_dieta_registro_atividadefisica1 FOREIGN KEY (registro_atividadefisica_id) REFERENCES public.registro_atividadefisica(id);
 
 
 --
@@ -770,7 +767,7 @@ ALTER TABLE ONLY public.registro_atividadefisica
     ADD CONSTRAINT fk_registro_atividadefisica_atividadefisica1 FOREIGN KEY (atividadefisica_idatividadefisica) REFERENCES public.atividadefisica(idatividadefisica);
 
 
--- Completed on 2018-05-10 18:50:34
+-- Completed on 2018-06-21 18:55:30
 
 --
 -- PostgreSQL database dump complete

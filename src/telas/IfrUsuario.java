@@ -29,7 +29,7 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
         Formatacao.formatarData(tfdDataNascimento);
         this.setTitle("Usuários");
         new usuarioDAO().popularTabela(tblUsuario, tfdCriterio.getText());
-        tfdAltura.setText("0");
+        tfdAltura.setText("");
     }
 
     /**
@@ -357,7 +357,7 @@ public class IfrUsuario extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Registro salvo com sucesso!");
             tfdNome.setText("");
             tfdEmail.setText("");
-            tfdAltura.setText("0");
+            tfdAltura.setText("");
             tfdDataNascimento.setText("");
             buttonGroup2.clearSelection();
             tfdNome.requestFocus();

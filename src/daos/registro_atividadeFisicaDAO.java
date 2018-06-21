@@ -33,6 +33,7 @@ public class registro_atividadeFisicaDAO implements IDAO_T<registro_atividadeFis
             System.out.println("sql: " + sql);
 
             int resultado = st.executeUpdate(sql);
+            JOptionPane.showMessageDialog(null, "Atividade física registrada com sucesso!");
 
             return null;
 

@@ -20,7 +20,15 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="114" y="19" width="356" height="40" uuid="94ff8f49-d8ed-40b5-8689-e0756ce3d183"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[RELATÓRIO DE ALIMENTOS]]></text>
+			</staticText>
+		</band>
 	</title>
 	<pageHeader>
 		<band height="35" splitType="Stretch"/>

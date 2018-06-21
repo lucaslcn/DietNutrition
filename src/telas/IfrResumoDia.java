@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static support.Formatacao.round;
 
 /**
  *
@@ -30,6 +31,7 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
     
     private int user_id;
     private int resumo_id;
+    private double totalMacros;
 
     /**
      * Creates new form IfrDieta
@@ -258,28 +260,31 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
                                                             .addGap(18, 18, 18)
                                                             .addComponent(tfdSaldoFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                        .addGap(38, 38, 38)
                                                         .addComponent(jLabel9)
                                                         .addGap(18, 18, 18)
                                                         .addComponent(tfdSaldoGorduras, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(jLabel8)
-                                                        .addGap(18, 18, 18)
-                                                        .addComponent(tfdSaldoCarb, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                                .addComponent(comboPorcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(18, 18, 18))
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                .addComponent(comboPorcoes1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(18, 18, 18)))
-                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(BtnRegistrarAtividade)
-                                                            .addComponent(BtnRegistrarAlimento))
-                                                        .addGap(12, 12, 12))))
+                                                                .addComponent(jLabel8)
+                                                                .addGap(18, 18, 18)
+                                                                .addComponent(tfdSaldoCarb, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                                        .addComponent(comboPorcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addGap(18, 18, 18))
+                                                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                        .addComponent(comboPorcoes1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addGap(18, 18, 18)))
+                                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                    .addComponent(BtnRegistrarAtividade)
+                                                                    .addComponent(BtnRegistrarAlimento))
+                                                                .addGap(12, 12, 12))))))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -343,7 +348,7 @@ public class IfrResumoDia extends javax.swing.JInternalFrame {
                     .addComponent(comboPorcoes1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnRegistrarAtividade)
                     .addComponent(jButton2))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Registro", jPanel1);

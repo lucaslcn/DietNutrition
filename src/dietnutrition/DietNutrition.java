@@ -23,7 +23,7 @@ public class DietNutrition {
     public static void main(String[] args) {
         
         if (ConexaoBD.getInstance().getConnection() != null) {
-            JOptionPane.showMessageDialog(null, "Abriu!");
+//            JOptionPane.showMessageDialog(null, "Abriu!");
             new Login().setVisible(true);
             
         } else {
